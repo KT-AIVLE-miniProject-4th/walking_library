@@ -111,6 +111,26 @@ npm run dev
 > ⚠️ 두 서버가 모두 켜져 있어야 정상 동작합니다.
 > ⚠️ json-server 1.x는 id를 문자열로 만들고 동작이 달라서, 팀 전체가 **0.17.4**로 통일합니다.
 
+### 폴더 구조
+
+```
+walking_library/
+├─ db.json                 # json-server 데이터 (books)
+├─ docs/planning.md        # 기획서
+├─ index.html
+├─ package.json
+└─ src/
+   ├─ api/config.js        # API_URL (서버 주소 상수)
+   ├─ constants/genres.js  # 장르 목록
+   ├─ mock/books.js        # 1일차 Mock 데이터
+   ├─ utils/formatDate.js  # 날짜 포맷 (2026.11.20)
+   ├─ components/          # Layout, Header, BookCard, BookForm (+ 같은 이름 CSS)
+   ├─ pages/               # 목록, 상세, 등록, 수정, 404 (+ 같은 이름 CSS)
+   ├─ App.jsx              # 라우팅
+   ├─ main.jsx             # 진입점 (BrowserRouter)
+   └─ index.css            # 디자인 토큰(:root) + 공통 스타일
+```
+
 ---
 
 ## 6. 데이터 구조 (db.json)

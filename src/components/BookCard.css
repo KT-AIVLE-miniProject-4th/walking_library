@@ -1,0 +1,66 @@
+.book-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+/* 표지 비율 2:3 (OpenAI 1024x1536과 동일) */
+.book-card-cover {
+  aspect-ratio: 2 / 3;
+  background: var(--color-primary-soft);
+}
+
+.book-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.book-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--space-4);
+  color: var(--color-primary);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.book-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+}
+
+.book-card-title {
+  font-size: var(--text-base);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.book-card-author {
+  font-size: var(--text-sm);
+}
+
+.book-card-date {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

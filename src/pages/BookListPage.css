@@ -1,0 +1,13 @@
+/* 반응형 카드 그리드: 화면 폭에 맞춰 열 개수가 자동으로 바뀐다 */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-5);
+}
+
+@media (max-width: 480px) {
+  .book-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-3);
+  }
+}
