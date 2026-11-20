@@ -61,6 +61,10 @@ function BookForm({ initialValues = EMPTY_FORM, submitLabel = '저장' }) {
           placeholder="글의 분위기와 배경이 드러나게 써 주세요. AI 표지 생성에 사용됩니다."
         />
       </label>
+        {/* AI 표지 생성: 3일차 M5에서 구현 */}
+        <button type="button" className="btn btn-primary" disabled>
+          AI 표지 생성
+        </button>
 
       <div className="book-form-actions">
         {/* 취소: 이전 화면으로 돌아가기 */}
@@ -70,6 +74,7 @@ function BookForm({ initialValues = EMPTY_FORM, submitLabel = '저장' }) {
         <button type="submit" className="btn btn-primary">
           {submitLabel}
         </button>
+        
       </div>
     </form>
   );
