@@ -163,7 +163,7 @@
 | 박주영 &nbsp;&nbsp;&nbsp;| 검토 담당 | CRUD 연동 | json-server 세팅, 목록·상세·등록·수정·삭제 API 연동, 코드·산출물 검토 |
 | 이준혁 &nbsp;&nbsp;&nbsp; | PPT 제작 | UI · 레이아웃 | 페이지 구조 설계, 공통 컴포넌트(Header, Layout, BookCard, BookForm), 디자인 톤·토큰 관리, 결과보고서 PPT 제작 |
 | 김건우 &nbsp;&nbsp;&nbsp;| 서기 | 발표 · 문서 | 회의 기록, README.md 정리, 데모 시연 준비 |
-| 홍수진 &nbsp;&nbsp;&nbsp; | | 스타일링 · QA | CSS 마감, 반응형 대응, E2E 시나리오 테스트 |
+| 홍수진 &nbsp;&nbsp;&nbsp; | 타임키퍼 | 스타일링 · QA | CSS 마감, 반응형 대응, E2E 시나리오 테스트 |
 
 ---
 
