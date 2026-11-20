@@ -1,0 +1,44 @@
+
+name: "🐛 버그 신고"
+description: "발견한 오류를 등록합니다."
+title: "[Fix] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "버그 설명"
+      description: "어떤 문제가 발생했나요?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "재현 방법"
+      value: |
+        1. 
+        2. 
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "기대 결과"
+      placeholder: "정상적으로는 어떻게 동작해야 하나요?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: "실행 환경"
+      placeholder: "예: Chrome, Windows 11"
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "스크린샷 및 로그"
+      description: "API Key 등 민감한 정보는 제거해주세요."
