@@ -1,21 +1,14 @@
+/* 테두리·배경 없이 큰 표지와 아래 한 줄 정보만 보여주는 카드 */
 .book-card {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-
-.book-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
+  gap: var(--space-3);
 }
 
 /* 표지 비율 2:3 (OpenAI 1024x1536과 동일) */
 .book-card-cover {
   aspect-ratio: 2 / 3;
+  overflow: hidden;
   background: var(--color-primary-soft);
 }
 
@@ -24,6 +17,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease-out;
+}
+
+/* 마우스를 올리면 표지만 살짝 확대 */
+.book-card:hover .book-card-cover img {
+  transform: scale(1.03);
 }
 
 .book-card-placeholder {
@@ -31,8 +30,8 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: var(--space-4);
-  color: var(--color-primary);
+  padding: var(--space-5);
+  color: var(--color-text);
   font-size: var(--text-lg);
   font-weight: 700;
   text-align: center;
@@ -42,25 +41,37 @@
 .book-card-body {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: var(--space-1);
-  padding: var(--space-3) var(--space-4) var(--space-4);
+}
+
+/* 제목은 왼쪽, 장르는 오른쪽 끝 */
+.book-card-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
 }
 
 .book-card-title {
-  font-size: var(--text-base);
-  font-weight: 700;
+  min-width: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 100%;
 }
 
-.book-card-author {
+.book-card:hover .book-card-title {
+  text-decoration: underline;
+}
+
+.book-card-genre {
+  flex-shrink: 0;
   font-size: var(--text-sm);
+  color: var(--color-text-muted);
 }
 
-.book-card-date {
+.book-card-meta {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
 }

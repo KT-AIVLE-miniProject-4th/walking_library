@@ -1,13 +1,102 @@
-/* 반응형 카드 그리드: 화면 폭에 맞춰 열 개수가 자동으로 바뀐다 */
-.book-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: var(--space-5);
+/* ===== 첫 화면 대표 사진 (hero) ===== */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 헤더를 뺀 화면 높이만큼 꽉 채우기 (svh: 모바일 주소창을 뺀 높이) */
+  min-height: calc(100svh - var(--header-height));
+  /* Layout의 main 폭 제한·여백을 벗어나 화면 끝까지 넓히기 */
+  margin-inline: calc(50% - 50vw);
+  margin-top: calc(-1 * var(--space-6));
+  margin-bottom: var(--space-7);
+  padding: var(--space-6) var(--space-4);
+  /* 반투명 갈색을 사진 위에 덮어 흰 글자가 잘 보이게 한다. 사진이 없으면 베이지 배경 */
+  background:
+    linear-gradient(var(--color-overlay), var(--color-overlay)),
+    url('/hero.jpg') center / cover no-repeat,
+    var(--color-primary-soft);
+  color: var(--color-on-primary);
+  text-align: center;
 }
 
-@media (max-width: 480px) {
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: var(--max-width);
+}
+
+.hero-sub {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.hero-title {
+  font-size: var(--text-hero);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.hero-text {
+  font-size: var(--text-lg);
+  word-break: keep-all;
+}
+
+/* 화면 아래쪽 가운데의 스크롤 안내 */
+.hero-scroll {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-on-primary);
+}
+
+.hero-scroll:hover {
+  text-decoration: underline;
+}
+
+/* ===== 도서 목록 ===== */
+.book-list {
+  /* 책 사이 가로 간격. 양쪽 끝 여백도 같은 값을 쓴다 */
+  --grid-gap: var(--space-5);
+  /* Layout의 main 폭 제한(1120px)을 벗어나 화면 끝까지 넓히고, 양쪽 끝 여백 = 책 사이 간격 */
+  margin-inline: calc(50% - 50vw);
+  padding-inline: var(--grid-gap);
+  /* 링크로 이동했을 때 제목이 고정 헤더에 가려지지 않게 */
+  scroll-margin-top: calc(var(--header-height) + var(--space-5));
+}
+
+/* 목록 제목은 작고 단정하게 */
+.book-list .page-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+/* 카드 그리드: 데스크톱 4열 → 태블릿 3열 → 모바일 2열 */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-7) var(--grid-gap);
+}
+
+@media (max-width: 990px) {
   .book-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: var(--space-3);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 750px) {
+  .book-list {
+    --grid-gap: var(--space-3);
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--space-5);
   }
 }

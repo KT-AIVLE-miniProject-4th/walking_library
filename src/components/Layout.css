@@ -1,9 +1,16 @@
+/* 헤더 - 본문 - 푸터를 세로로 쌓고, 내용이 짧아도 푸터는 화면 맨 아래에 */
 .layout {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  /* 첫 화면 사진을 화면 끝까지 넓힐 때 생기는 가로 스크롤 방지 */
+  overflow-x: clip;
 }
 
 .layout-main {
+  flex: 1; /* 남는 높이를 본문이 차지해서 푸터를 아래로 밀어낸다 */
+  width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4) var(--space-8);
+  padding: var(--space-6) var(--space-4) 0;
 }
