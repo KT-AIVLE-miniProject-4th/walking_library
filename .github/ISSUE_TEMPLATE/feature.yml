@@ -4,15 +4,6 @@ description: "새로운 기능을 개발할 때 사용합니다."
 title: "[Feat] "
 labels: ["feature"]
 body:
-  - type: input
-    id: feature-id
-    attributes:
-      label: "기능 번호"
-      description: "기획서의 기능 번호를 작성해주세요."
-      placeholder: "예: F7 - AI 표지 생성"
-    validations:
-      required: true
-
   - type: textarea
     id: description
     attributes:
@@ -36,7 +27,5 @@ body:
   - type: textarea
     id: acceptance
     attributes:
-      label: "완료 조건"
-      placeholder: "어떤 상태가 되면 완료인가요?"
-    validations:
-      required: true
+      label: "팀원들에게 전달할 사항"
+      placeholder: "관련 이슈에 대한 전달 사항이 있나요?
