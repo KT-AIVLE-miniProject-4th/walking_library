@@ -158,12 +158,12 @@
 
 | 이름 | 팀 역할 | 개발 담당 | 주요 업무 |
 | --- | --- | --- | --- |
-| 신희진 | 조장 | OpenAI 연동 | 팀 총괄, GPT Image API 호출과 응답 변환, API Key 입력 UI, 에러·로딩 처리, 표지 저장 |
-| 전용제 | 발표자 | PM · 기획 | 과제 진행 관리, 요구사항 정의, 기능 명세서 작성, 일정 관리, 프로젝트 뼈대 세팅, 최종 발표 |
-| 박주영 | 검토 담당 | CRUD 연동 | json-server 세팅, 목록·상세·등록·수정·삭제 API 연동, 코드·산출물 검토 |
-| 이준혁 | PPT 제작 | UI · 레이아웃 | 페이지 구조 설계, 공통 컴포넌트(Header, Layout, BookCard, BookForm), 디자인 톤·토큰 관리, 결과보고서 PPT 제작 |
-| 김건우 | 서기 | 발표 · 문서 | 회의 기록, README.md 정리, 데모 시연 준비 |
-| 홍수진 | | 스타일링 · QA | CSS 마감, 반응형 대응, E2E 시나리오 테스트 |
+| 신희진 &nbsp;&nbsp;&nbsp;| 조장 | OpenAI 연동 | 팀 총괄, GPT Image API 호출과 응답 변환, API Key 입력 UI, 에러·로딩 처리, 표지 저장 |
+| 전용제 &nbsp;&nbsp;&nbsp;| 발표자 | PM · 기획 | 과제 진행 관리, 요구사항 정의, 기능 명세서 작성, 일정 관리, 프로젝트 뼈대 세팅, 최종 발표 |
+| 박주영 &nbsp;&nbsp;&nbsp;| 검토 담당 | CRUD 연동 | json-server 세팅, 목록·상세·등록·수정·삭제 API 연동, 코드·산출물 검토 |
+| 이준혁 &nbsp;&nbsp;&nbsp; | PPT 제작 | UI · 레이아웃 | 페이지 구조 설계, 공통 컴포넌트(Header, Layout, BookCard, BookForm), 디자인 톤·토큰 관리, 결과보고서 PPT 제작 |
+| 김건우 &nbsp;&nbsp;&nbsp;| 서기 | 발표 · 문서 | 회의 기록, README.md 정리, 데모 시연 준비 |
+| 홍수진 &nbsp;&nbsp;&nbsp; | | 스타일링 · QA | CSS 마감, 반응형 대응, E2E 시나리오 테스트 |
 
 ---
 
