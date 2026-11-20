@@ -28,4 +28,4 @@ body:
     id: acceptance
     attributes:
       label: "팀원들에게 전달할 사항"
-      placeholder: "관련 이슈에 대한 전달 사항이 있나요?
+      placeholder: "관련 이슈에 대한 전달 사항이 있나요?"
