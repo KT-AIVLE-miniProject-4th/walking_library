@@ -1,0 +1,52 @@
+/* 하단 푸터: kombu green 배경 + 흰 글자, 화면 끝까지 꽉 차게 */
+.footer {
+  margin-top: var(--space-8);
+  padding: var(--space-7) var(--space-5) var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-logo {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.footer-desc {
+  font-size: var(--text-sm);
+  opacity: 0.8;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+/* 맨 아래 한 줄: 위와 얇은 선으로 구분 */
+.footer-bottom {
+  margin-top: var(--space-7);
+  padding-top: var(--space-4);
+  border-top: 1px solid currentColor;
+  font-size: var(--text-sm);
+  opacity: 0.7;
+}

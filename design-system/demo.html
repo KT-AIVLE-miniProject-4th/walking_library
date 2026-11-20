@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Bone & Kombu — demo</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components/bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="components/bundle.js"></script>
+</head>
+<body>
+<div style="padding:var(--space-22-4)">
+  <h1 class="display" style="margin:0 0 var(--space-16)">Bone &amp; Kombu</h1>
+  <p class="body" style="margin:0;line-height:1.6">따뜻한 본 컬러 위에 카페 누아 텍스트, 가장 중요한 행동 하나에만 콤부 그린.</p>
+</div>
+<div id="root"></div>
+<script>
+  var B = window.BoneKombu, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', null,
+    h('div', { className: 'bk-row' },
+      h(B.Button, { variant: 'primary' }, '장바구니 담기'),
+      h(B.Button, null, '사이즈 가이드'),
+      h(B.Button, { variant: 'primary', pill: true }, '구독하기'),
+      h(B.Button, { pill: true }, '신상품 보기')),
+    h('div', { className: 'bk-col' },
+      h(B.TextInput, { type: 'email', label: '이메일', placeholder: '이메일 주소를 입력하세요' }),
+      h(B.TextInput, { type: 'search', placeholder: '상품 검색', 'aria-label': '상품 검색' })),
+    h('div', { className: 'bk-row' },
+      h(B.Select, { options: ['사이즈: S', '사이즈: M', '사이즈: L', '사이즈: XL'], defaultValue: '사이즈: M', 'aria-label': '사이즈' }),
+      h(B.Select, { options: ['정렬: 추천순', '낮은 가격순', '높은 가격순', '신상품순'], 'aria-label': '정렬' })),
+    h('div', { className: 'bk-row' },
+      h(B.Badge, null, '린넨'), h(B.Badge, { tone: 'accent' }, '신상'), h(B.Badge, { tone: 'primary' }, '세일'))));
+</script>
+</body>
+</html>

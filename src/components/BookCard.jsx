@@ -3,6 +3,7 @@ import { formatDate } from '../utils/formatDate.js';
 import './BookCard.css';
 
 // 목록용 도서 카드. 클릭하면 상세 페이지로 이동한다.
+// 큰 표지 + 아래 한 줄(제목 왼쪽, 장르 오른쪽) + 저자·등록일
 function BookCard({ book }) {
   return (
     <Link to={`/books/${book.id}`} className="book-card">
@@ -15,10 +16,13 @@ function BookCard({ book }) {
         )}
       </div>
       <div className="book-card-body">
-        <span className="badge">{book.genre}</span>
-        <h3 className="book-card-title">{book.title}</h3>
-        <p className="book-card-author">{book.author}</p>
-        <p className="book-card-date">{formatDate(book.createdAt)} 등록</p>
+        <div className="book-card-row">
+          <h3 className="book-card-title">{book.title}</h3>
+          <span className="book-card-genre">{book.genre}</span>
+        </div>
+        <p className="book-card-meta">
+          {book.author} · {formatDate(book.createdAt)} 등록
+        </p>
       </div>
     </Link>
   );
