@@ -51,9 +51,9 @@ function BookDetailPage() {
             삭제
           </button>
           {/* AI 표지 생성: 3일차 M5에서 구현 */}
-          <button type="button" className="btn btn-primary" disabled>
+          {/* <button type="button" className="btn btn-primary" disabled>
             AI 표지 생성
-          </button>
+          </button> */}
         </div>
 
         <Link to="/" className="book-detail-back">
