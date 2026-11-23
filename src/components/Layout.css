@@ -14,3 +14,8 @@
   margin: 0 auto;
   padding: var(--space-6) var(--space-4) 0;
 }
+
+/* 홈 화면 배경이 헤더 뒤까지 이어지도록 설정 */
+.layout:has(.hero) .layout-main {
+  padding-top: 0;
+}

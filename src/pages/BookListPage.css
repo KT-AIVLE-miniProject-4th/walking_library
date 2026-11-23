@@ -6,17 +6,27 @@
   align-items: center;
   justify-content: center;
   /* 헤더를 뺀 화면 높이만큼 꽉 채우기 (svh: 모바일 주소창을 뺀 높이) */
-  min-height: calc(100svh - var(--header-height));
+  /* min-height: calc(100svh - var(--header-height)); */
+  min-height: 100svh;
+
   /* Layout의 main 폭 제한·여백을 벗어나 화면 끝까지 넓히기 */
   margin-inline: calc(50% - 50vw);
-  margin-top: calc(-1 * var(--space-6));
+  /* margin-top: calc(-1 * var(--space-6)); */
+  /* 헤더 높이만큼 배경을 위로 확장 */
+  margin-top: calc(-1 * var(--header-height));
+
+  /* 헤더 뒤에 가려지는 영역을 고려 */
+  padding-top: calc(var(--header-height) + var(--space-6));
+
   margin-bottom: var(--space-7);
   padding: var(--space-6) var(--space-4);
-  /* 반투명 갈색을 사진 위에 덮어 흰 글자가 잘 보이게 한다. 사진이 없으면 베이지 배경 */
+  /* 생성한 배경사진 첨부 */
   background:
-    linear-gradient(var(--color-overlay), var(--color-overlay)),
-    url('/hero.jpg') center / cover no-repeat,
-    var(--color-primary-soft);
+  linear-gradient(
+    rgba(30, 35, 20, 0.18),
+    rgba(30, 35, 20, 0.18)
+  ),
+  url('../assets/background.png') center / cover no-repeat;
   color: var(--color-on-primary);
   text-align: center;
 }
@@ -29,15 +39,31 @@
   max-width: var(--max-width);
 }
 
+/* 중앙 메인 제목 */
 .hero-title {
-  font-size: var(--text-hero);
-  font-weight: 700;
-  line-height: 1.15;
+  font-size: clamp(48px, 5vw, 72px);
+  font-weight: 800;
+  line-height: 1.2;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 2px 12px rgba(30, 25, 15, 0.35),
+    0 4px 24px rgba(30, 25, 15, 0.2);
 }
 
+/* 중앙 설명 */
 .hero-text {
-  font-size: var(--text-lg);
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 500;
+  line-height: 1.9;
+  letter-spacing: -0.02em;
+
+  color: #ffffff;
   word-break: keep-all;
+
+  text-shadow:
+    0 2px 8px rgba(30, 25, 15, 0.5);
 }
 
 /* 가운데 새 도서 등록 아이콘 버튼 */
@@ -179,4 +205,44 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: var(--space-5);
   }
+}
+
+/* 메인 화면 글쓰기 버튼 */
+.hero-create-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  margin-top: 24px;
+  padding: 14px 28px;
+
+  background: rgba(53, 64, 36, 0.30);
+  color: var(--color-on-primary);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  box-shadow: 0 4px 12px rgba(30, 35, 20, 0.12);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.hero-create-btn:hover {
+  background: rgba(53, 64, 36, 0.30);
+  transform: translateY(-2px);
+}
+
+.hero-create-btn:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
 }
