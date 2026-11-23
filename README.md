@@ -264,8 +264,56 @@ walking_library/
 
 ---
 
+## 11. 현재까지 진행한 내용
+
+> 제공된 main 소스 기준입니다. 아래의 구현 내용은 코드에서 확인한 범위이며, 실행 테스트 완료를 의미하지 않습니다.
+
+### 11-1. 프로젝트 기반과 공통 구조
+
+- Vite + React 프로젝트, 개발·빌드·미리보기·린트 명령 구성
+- json-server 0.17.4 고정, `db.json` 샘플 데이터 및 `npm run server` 준비
+- `src/api/config.js`에 API 기본 주소 정의 (화면 연결은 예정)
+- `BrowserRouter`와 `Layout`의 `Outlet`을 사용한 중첩 라우팅 구성
+- 모든 페이지에 공통 `Header`·`Footer` 적용
+- 목록·등록 메뉴와 GitHub 바로가기 제공
+- 장르 목록(`GENRES`)과 날짜 포맷(`formatDate`) 공통화
+- GitHub 버그·기능 이슈 템플릿과 PR 템플릿 추가
+
+### 11-2. 화면별 구현 내용
+
+| 구분 | 현재 구현 내용 | 관련 파일 |
+| --- | --- | --- |
+| 목록 | Hero와 도서 목록 구성, 목록 위치로 스크롤 이동, 배열 복사 후 등록일 내림차순 정렬 | `src/pages/BookListPage.jsx` |
+| 도서 카드 | 표지·제목·장르·저자·등록일 표시, 카드 클릭 시 상세 이동, 표지가 없으면 제목 placeholder 표시 | `src/components/BookCard.jsx` |
+| 상세 | URL의 id와 Mock 도서 매칭, 본문·작성일·수정일 표시, 수정 화면 이동, 없는 도서 안내 | `src/pages/BookDetailPage.jsx` |
+| 등록·수정 | 공통 BookForm 재사용, useState로 입력값 관리, 객체 복사로 상태 갱신, 수정 시 기존 값 채우기 | `src/components/BookForm.jsx` |
+| 예외 경로 | 정의되지 않은 URL에 404 안내와 목록 링크 제공 | `src/pages/NotFoundPage.jsx` |
+
+등록·수정 버튼은 현재 폼의 기본 제출만 막으며, 데이터 저장이나 저장 완료 후 이동은 수행하지 않습니다. 상세·수정 페이지의 도서 조회도 API가 아닌 Mock 데이터의 `find`를 사용합니다.
+
+### 11-3. 디자인과 반응형 스타일
+
+- Bone & Kombu를 바탕으로 크림색 배경, 갈색 텍스트, 녹색 주요 버튼 적용
+- `src/index.css`에서 색상·간격·글자 크기·모서리·그림자를 CSS 변수로 관리
+- 한글 Pretendard와 영문 Helvetica Neue 폰트 스택 적용
+- 도서 그리드: 기본 4열 → 화면 폭 990px 이하 3열 → 750px 이하 2열
+- Hero 제목에 `clamp()` 적용, 목록 이동에 부드러운 스크롤 적용
+- `design-system/`에 토큰, Button·TextInput·Select·Badge 참고 구현 및 데모 정리
+
+> 앱은 자체 JSX 컴포넌트와 CSS를 사용합니다. `design-system/components/bundle.js`를 직접 사용하는 구조는 아닙니다. Hero 배경은 `/hero.jpg`를 참조하지만 현재 ZIP에는 `public/hero.jpg`가 없어 배경 사진 추가가 필요합니다.
+
+### 11-4. 다음 작업
+
+1. 목록·상세·수정 페이지의 Mock 조회를 fetch 기반 GET 요청으로 교체
+2. 기본 입력 검사, POST·PATCH·DELETE 및 성공 후 화면 이동 구현
+3. 로딩·요청 실패·빈 목록 안내와 중복 제출 방지 처리
+4. API Key 입력, AI 이미지 생성·미리보기·재생성·표지 저장 연동
+5. 검색·장르 필터와 심화 유효성 검사 등 도전 기능 검토
+6. Hero 이미지 보완, 주요 화면 캡처 추가, 반응형·CRUD·AI 사용자 시나리오 검증
+
 ## 관련 문서
 - 기획서: [`planning.md`](./planning.md)
+- 디자인 시스템: [`design-system/README.md`](./design-system/README.md)
 - 팀 노션: 4차 미니프로젝트 FrontEnd (11조)
 
 ## 회고
