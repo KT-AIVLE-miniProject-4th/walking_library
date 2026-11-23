@@ -93,10 +93,68 @@
   scroll-margin-top: calc(var(--header-height) + var(--space-5));
 }
 
-/* 목록 제목은 작고 단정하게 */
+.book-list-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
 .book-list .page-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: 0;
+  white-space: nowrap;
   font-size: var(--text-lg);
   font-weight: 600;
+}
+
+.book-list-count {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+
+.book-list-toolbar .search-bar {
+  flex: 0 1 340px;
+  min-width: 220px;
+  margin-bottom: 0;
+}
+
+.book-list-toolbar .genre-filter {
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+@media (max-width: 750px) {
+  .book-list-toolbar .search-bar {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .book-list-toolbar .genre-filter {
+    flex-basis: calc(100% + 2 * var(--grid-gap));
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    margin-inline: calc(-1 * var(--grid-gap));
+    padding-inline: var(--grid-gap);
+    scrollbar-width: none;
+  }
+
+  .book-list .genre-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .book-list .genre-filter-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
 }
 
 /* 카드 그리드: 데스크톱 4열 → 태블릿 3열 → 모바일 2열 */
