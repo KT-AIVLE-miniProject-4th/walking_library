@@ -29,11 +29,6 @@
   max-width: var(--max-width);
 }
 
-.hero-sub {
-  font-size: var(--text-sm);
-  font-weight: 600;
-}
-
 .hero-title {
   font-size: var(--text-hero);
   font-weight: 700;
@@ -43,6 +38,33 @@
 .hero-text {
   font-size: var(--text-lg);
   word-break: keep-all;
+}
+
+/* 가운데 새 도서 등록 아이콘 버튼 */
+.hero-new-book {
+  display: block;
+  width: min(260px, 70vw);
+  margin-top: var(--space-5);
+  transition: transform 0.2s;
+}
+
+/* 배경이 투명한 이미지라서, 상자 그림자 대신 그림 모양을 따라 그림자를 준다 */
+.hero-new-book img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(var(--shadow));
+}
+
+/* 마우스를 올리면 살짝 떠오르기 */
+.hero-new-book:hover {
+  transform: translateY(calc(-1 * var(--space-1)));
+}
+
+/* 키보드(Tab)로 이동했을 때 위치가 보이게 */
+.hero-new-book:focus-visible {
+  outline: 2px solid var(--color-on-primary);
+  outline-offset: var(--space-1);
 }
 
 /* 화면 아래쪽 가운데의 스크롤 안내 */
