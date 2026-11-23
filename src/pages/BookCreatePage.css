@@ -8,15 +8,6 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.book-create-back {
-  display: inline-block;
-  margin-bottom: var(--space-8);
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-.book-create-back:hover { color: var(--color-primary); }
-
 .book-create-eyebrow,
 .book-form-step {
   display: block;
@@ -30,18 +21,12 @@
 
 .book-create-heading h1 {
   margin: var(--space-4) 0 var(--space-4);
-  font-size: clamp(2.55rem, 5.3vw, 4.7rem);
+  /* 한 줄에 들어가도록 첫 화면 제목과 같은 크기 변수 사용 (좁은 화면에서는 자연스럽게 줄바꿈) */
+  font-size: var(--text-hero);
   font-weight: 600;
   letter-spacing: -0.06em;
   line-height: 1.16;
   word-break: keep-all;
-}
-
-.book-create-heading h1 em {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--color-primary);
 }
 
 .book-create-heading p { color: var(--color-text-muted); }
@@ -49,5 +34,4 @@
 @media (max-width: 700px) {
   .book-create { padding-top: 0; }
   .book-create-heading { padding-bottom: var(--space-6); }
-  .book-create-back { margin-bottom: var(--space-7); }
 }
