@@ -47,7 +47,7 @@ function BookForm({ initialValues = EMPTY_FORM, onSubmit, submitting = false, se
         <div className="book-form-intro">
           <span className="book-form-step">01 / YOUR BOOK</span>
           <h2>첫 페이지를 열어볼까요?</h2>
-          <p>아래 내용을 채우면 나만의 책이 서재에 올라갑니다.</p>
+          <p>아래 내용을 채우면 나만의 책이 도서 목록에 올라갑니다.</p>
         </div>
       )}
       <label className="book-form-field">
@@ -89,7 +89,7 @@ function BookForm({ initialValues = EMPTY_FORM, onSubmit, submitting = false, se
       {errorMessage && <p className="book-form-error">{errorMessage}</p>}
 
       <div className="book-form-actions">
-        {/* 취소: 등록은 서재로, 수정은 이전 화면으로 돌아가기 */}
+        {/* 취소: 등록은 도서 목록으로, 수정은 이전 화면으로 돌아가기 */}
         <button type="button" className="btn" onClick={() => navigate(isNew ? '/' : -1)} disabled={submitting}>
           취소
         </button>
@@ -101,7 +101,7 @@ function BookForm({ initialValues = EMPTY_FORM, onSubmit, submitting = false, se
         <aside className="book-form-preview" aria-label="표지 미리보기">
           <div className="preview-heading"><span>LIVE PREVIEW</span><span className="preview-dot" /></div>
           <div className="preview-book">
-            <div className="preview-book-top">걷기가 서재 <span>·</span> ORIGINAL STORY</div>
+            <div className="preview-book-top">책임 <span>·</span> ORIGINAL STORY</div>
             <div className="preview-book-art" aria-hidden="true"><span className="preview-orbit one" /><span className="preview-orbit two" /><span className="preview-orbit three" /><span className="preview-star">✳</span></div>
             <div className="preview-book-bottom"><span>{form.genre || '당신의 장르'}</span><strong>{form.title.trim() || '아직 이름 없는\n당신의 이야기'}</strong><span>지은이 {form.author.trim() || '당신'}</span></div>
           </div>
