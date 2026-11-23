@@ -7,7 +7,7 @@ function Header() {
     <header className="header">
       <div className="header-inner">
         <Link to="/" className="header-logo">
-          걷기가 서재 <span className="header-logo-sub">작가의 산책</span>
+          책임
         </Link>
         <nav className="header-nav">
           <NavLink to="/" end className="header-link">

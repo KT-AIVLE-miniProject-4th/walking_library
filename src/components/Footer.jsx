@@ -7,8 +7,8 @@ function Footer() {
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <p className="footer-logo">걷기가 서재</p>
-          <p className="footer-desc">작가의 산책 · 이야기에 어울리는 표지를 만드는 도서관리 시스템</p>
+          <p className="footer-logo">책임</p>
+          <p className="footer-desc">이야기에 어울리는 표지를 만드는 도서관리 시스템</p>
         </div>
 
         <nav className="footer-nav">
