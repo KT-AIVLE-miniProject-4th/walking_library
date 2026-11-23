@@ -44,7 +44,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<BookListPage books={books} loading={loading} error={error} />} />
         <Route path="/books/new" element={<BookCreatePage onBookCreated={handleBookCreated} />} />
-        <Route path="/books/:id" element={<BookDetailPage onBookDeleted={handleBookDeleted} />} />
+        <Route path="/books/:id" element={<BookDetailPage onBookDeleted={handleBookDeleted} onBookUpdated={handleBookUpdated} />} />
         <Route path="/books/:id/edit" element={<BookEditPage onBookUpdated={handleBookUpdated} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
