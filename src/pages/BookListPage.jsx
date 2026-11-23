@@ -1,12 +1,9 @@
 import BookCard from '../components/BookCard.jsx';
-import { mockBooks } from '../mock/books.js';
 import './BookListPage.css';
 
 // 첫 페이지: 화면을 꽉 채우는 대표 사진(hero) + 아래로 스크롤하면 도서 목록
-// (1일차: Mock 데이터 / 2일차 M3에서 GET /books로 교체)
-function BookListPage() {
-  // 최신 등록순 정렬 (원본 배열을 바꾸지 않도록 복사 후 정렬)
-  const books = [...mockBooks].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+// books, loading, error는 App에서 관리하며 props로 전달받는다. 그리고 렌더링
+function BookListPage({ books, loading, error }) {
 
   return (
     <>
@@ -26,11 +23,19 @@ function BookListPage() {
       {/* 도서 목록: 사진 아래로 스크롤하면 보인다 */}
       <section id="book-list" className="book-list">
         <h2 className="page-title">도서 목록</h2>
-        <div className="book-grid">
-          {books.map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))}
-        </div>
+
+        {loading && <p className="empty-state">불러오는 중...</p>}
+        {error && <p className="empty-state">오류가 발생했어요: {error}</p>}
+        {!loading && !error && books.length === 0 && (
+          <p className="empty-state">등록된 도서가 없어요.</p>
+        )}
+        {!loading && !error && books.length > 0 && (
+          <div className="book-grid">
+            {books.map((book) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

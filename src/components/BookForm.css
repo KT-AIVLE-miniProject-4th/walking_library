@@ -43,6 +43,12 @@
   border-color: var(--color-primary);
 }
 
+/* 입력 검사 또는 서버 에러 메시지 */
+.book-form-error {
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+}
+
 .book-form-actions {
   display: flex;
   justify-content: flex-end;

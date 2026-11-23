@@ -1,13 +1,57 @@
-import { Link, useParams } from 'react-router-dom';
-import { mockBooks } from '../mock/books.js';
+import { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { getBook, deleteBook } from '../api/books.js';
 import { formatDate } from '../utils/formatDate.js';
 import './BookDetailPage.css';
 
-// 도서 상세 (1일차: Mock 데이터 / 2일차 M3에서 GET /books/:id로 교체)
-function BookDetailPage() {
+// 도서 상세: GET /books/:id 로 실제 데이터 조회
+// onBookDeleted: 삭제 완료 후 App의 books state에서 해당 항목을 제거하는 콜백
+function BookDetailPage({ onBookDeleted }) {
   const { id } = useParams();
-  // URL 파라미터는 문자열이므로 숫자로 바꿔서 비교
-  const book = mockBooks.find((b) => b.id === Number(id));
+  const navigate = useNavigate();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    getBook(id)
+      .then(setBook)
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  const handleDelete = async () => {
+    if (!window.confirm(`"${book.title}"을(를) 삭제할까요?`)) return;
+    setDeleting(true);
+    try {
+      // DELETE /books/:id — headers·body 없음
+      await deleteBook(book.id);
+      // 목록 state에서 해당 항목 제거
+      onBookDeleted(book.id);
+      navigate('/');
+    } catch (err) {
+      alert(`삭제 실패: ${err.message}`);
+      setDeleting(false);
+    }
+  };
+
+  if (loading) {
+    return <p className="empty-state">불러오는 중...</p>;
+  }
+
+  if (error) {
+    return (
+      <div className="empty-state">
+        <p>도서를 불러오지 못했어요: {error}</p>
+        <Link to="/" className="btn">
+          목록으로 돌아가기
+        </Link>
+      </div>
+    );
+  }
 
   if (!book) {
     return (
@@ -46,14 +90,10 @@ function BookDetailPage() {
           <Link to={`/books/${book.id}/edit`} className="btn">
             수정
           </Link>
-          {/* 삭제: 2일차 M4에서 구현 */}
-          <button type="button" className="btn btn-danger" disabled>
-            삭제
+          <button type="button" className="btn btn-danger" onClick={handleDelete} disabled={deleting}>
+            {deleting ? '삭제 중...' : '삭제'}
           </button>
           {/* AI 표지 생성: 3일차 M5에서 구현 */}
-          {/* <button type="button" className="btn btn-primary" disabled>
-            AI 표지 생성
-          </button> */}
         </div>
 
         <Link to="/" className="book-detail-back">
