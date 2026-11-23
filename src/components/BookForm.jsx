@@ -57,13 +57,14 @@ function BookForm({ initialValues = EMPTY_FORM, onSubmit, submitting = false, se
 
   return (
     <form className={`book-form${isNew ? ' book-form-create' : ''}`} onSubmit={handleSubmit}>
-      {isNew && (
-        <div className="book-form-intro">
-          <span className="book-form-step">01 / YOUR BOOK</span>
-          <h2>첫 페이지를 열어볼까요?</h2>
-          <p>아래 내용을 채우면 나만의 책이 도서 목록에 올라갑니다.</p>
-        </div>
-      )}
+      {/* 폼 위 안내 영역 통째로 숨김 (빈 칸 공백 제거). 비교하려면 아래 4줄(isNew 2줄 + div 2줄)의 주석을 함께 풀기 */}
+      {/* {isNew && ( */}
+        {/* <div className="book-form-intro"> */}
+          {/* <span className="book-form-step">01 / YOUR BOOK</span> */}
+          {/* <h2>첫 페이지를 열어볼까요?</h2> */}
+          {/* <p>아래 내용을 채우면 나만의 책이 도서 목록에 올라갑니다.</p> */}
+        {/* </div> */}
+      {/* )} */}
       <label className="book-form-field">
         <span className="book-form-label">{isNew && <small>01</small>} 제목 {isNew && <span className="required" aria-label="필수">*</span>}</span>
         <input name="title" value={form.title} onChange={handleChange} placeholder="도서 제목을 입력하세요" />
@@ -124,8 +125,10 @@ function BookForm({ initialValues = EMPTY_FORM, onSubmit, submitting = false, se
             <div className="preview-book-bottom"><span>{form.genre || '당신의 장르'}</span><strong>{form.title.trim() || '아직 이름 없는\n당신의 이야기'}</strong><span>지은이 {form.author.trim() || '당신'}</span></div>
           </div>
           <p className="preview-caption">책의 제목과 저자, 장르를 입력하면 이곳에 바로 나타나요.</p>
-          <a className="preview-ai" href="#ai-cover-info"><span>✦</span><div><strong>AI 표지 만들기</strong><small>책을 등록한 뒤 상세 화면에서 이용할 수 있어요</small></div><span className="preview-ai-arrow">안내 ↗</span></a>
-          <p className="preview-ai-note" id="ai-cover-info">등록 화면에서는 AI 표지를 생성하지 않습니다. 책을 등록한 뒤 상세 화면에서 만들 수 있어요.</p>
+          {/* AI 표지 만들기: 사이트 공통 버튼 스타일 사용 (클릭 동작은 #20에서 연결) */}
+          <button type="button" className="btn btn-primary preview-ai">
+            AI 표지 만들기
+          </button>
         </aside>
       )}
     </form>
