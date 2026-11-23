@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BookForm from '../components/BookForm.jsx';
 import { createBook } from '../api/books.js';
 import './BookCreatePage.css';
@@ -34,9 +34,14 @@ function BookCreatePage({ onBookCreated }) {
 
   return (
     <section className="book-create">
-      <h1 className="page-title">새 도서 등록</h1>
+      <div className="book-create-heading">
+        <Link to="/" className="book-create-back">← 서재로 돌아가기</Link>
+        <span className="book-create-eyebrow">YOUR STORY BEGINS HERE <span>✳</span> WRITE YOUR BOOK</span>
+        <h1>당신의 이야기가<br /><em>한 권의 책이 되는 순간.</em></h1>
+        <p>이야기를 적어 주세요. 오늘부터 당신도 작가입니다.</p>
+      </div>
       <BookForm
-        submitLabel="등록"
+        submitLabel="내 책 등록하기"
         onSubmit={handleSubmit}
         submitting={submitting}
         serverError={serverError}
