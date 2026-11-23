@@ -1,0 +1,91 @@
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 480px;
+  margin-bottom: var(--space-6);
+}
+
+.search-bar-input {
+  width: 100%;
+  height: 2.75rem;
+  padding: 0 calc(var(--space-7) - var(--space-2)) 0 calc(var(--space-6) + var(--space-3));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search-bar-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search-bar-input:hover {
+  border-color: var(--color-text-muted);
+}
+
+.search-bar-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.search-bar-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.search-bar-icon {
+  position: absolute;
+  left: var(--space-4);
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  pointer-events: none;
+  transition: stroke 0.15s;
+}
+
+.search-bar:focus-within .search-bar-icon {
+  stroke: var(--color-primary);
+}
+
+.search-bar-clear {
+  position: absolute;
+  right: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.search-bar-clear svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.search-bar-clear:hover {
+  background: var(--color-primary-soft);
+}
+
+.search-bar-clear:hover svg {
+  stroke: var(--color-text);
+}
+
+.search-bar-clear:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
