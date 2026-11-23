@@ -1,11 +1,30 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import BookCard from '../components/BookCard.jsx';
+import SearchBar from '../components/SearchBar.jsx';
+import GenreFilter from '../components/GenreFilter.jsx';
+import { Link } from 'react-router-dom';
 import newBookIcon from '../assets/책임 아이콘.png';
 import './BookListPage.css';
 
 // 첫 페이지: 화면을 꽉 채우는 대표 사진(hero) + 아래로 스크롤하면 도서 목록
 // books, loading, error는 App에서 관리하며 props로 전달받는다. 그리고 렌더링
 function BookListPage({ books, loading, error }) {
+  const [query, setQuery] = useState('');
+  const [genre, setGenre] = useState('');
+
+  const keyword = query.trim().toLowerCase();
+  const filteredBooks = books.filter((book) => {
+    const matchesGenre = !genre || book.genre === genre;
+    const matchesKeyword =
+      !keyword ||
+      book.title.toLowerCase().includes(keyword) ||
+      book.author.toLowerCase().includes(keyword);
+    return matchesGenre && matchesKeyword;
+  });
+
+  const emptyMessage = [genre && `'${genre}' 장르`, keyword && `"${query.trim()}" 검색`]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <>
@@ -27,16 +46,26 @@ function BookListPage({ books, loading, error }) {
 
       {/* 도서 목록: 사진 아래로 스크롤하면 보인다 */}
       <section id="book-list" className="book-list">
-        <h2 className="page-title">도서 목록</h2>
+        <div className="book-list-toolbar">
+          <h2 className="page-title">
+            도서 목록
+            {!loading && !error && <span className="book-list-count">{filteredBooks.length}권</span>}
+          </h2>
+          <SearchBar value={query} onChange={setQuery} />
+          <GenreFilter value={genre} onChange={setGenre} />
+        </div>
 
         {loading && <p className="empty-state">불러오는 중...</p>}
         {error && <p className="empty-state">오류가 발생했어요: {error}</p>}
         {!loading && !error && books.length === 0 && (
           <p className="empty-state">등록된 도서가 없어요.</p>
         )}
-        {!loading && !error && books.length > 0 && (
+        {!loading && !error && books.length > 0 && filteredBooks.length === 0 && (
+          <p className="empty-state">{emptyMessage} 결과에 맞는 도서가 없어요.</p>
+        )}
+        {!loading && !error && filteredBooks.length > 0 && (
           <div className="book-grid">
-            {books.map((book) => (
+            {filteredBooks.map((book) => (
               <BookCard key={book.id} book={book} />
             ))}
           </div>
