@@ -3,7 +3,7 @@
   top: 0;
   z-index: 10;
   /* 반투명 크림색 배경 */
-  background: rgba(246, 238, 232, 0.40);
+  background: rgba(160, 145, 133, 0.1);
 
   /* 뒤에 있는 배경을 부드럽게 흐리게 */
   backdrop-filter: blur(12px);
@@ -68,7 +68,7 @@
 .header-subtitle {
   font-size: 13px;
   font-weight: 400;
-  color: #766d5f;
+  color: var(--color-primary-hover);
   letter-spacing: -0.02em;
   white-space: nowrap;
 }
@@ -81,12 +81,12 @@
 
 .header-link {
   font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  color: var(--color-primary);
 }
 
 .header-link:hover,
 .header-link.active {
-  color: var(--color-text);
+  color: var(--color-primary-hover);
   font-weight: 600;
 }
 
