@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import BookCard from '../components/BookCard.jsx';
+import newBookIcon from '../assets/책임 아이콘.png';
 import './BookListPage.css';
 
 // 첫 페이지: 화면을 꽉 채우는 대표 사진(hero) + 아래로 스크롤하면 도서 목록
@@ -10,9 +12,12 @@ function BookListPage({ books, loading, error }) {
       {/* 대표 사진 영역: 사진 파일은 public/hero.jpg */}
       <section className="hero">
         <div className="hero-content">
-          <p className="hero-sub">작가의 산책</p>
-          <h1 className="hero-title">걷기가 서재</h1>
+          <h1 className="hero-title">책임</h1>
           <p className="hero-text">누구나 작가가 되어 글을 쓰고, 이야기에 어울리는 표지를 만드는 곳</p>
+          {/* 가운데 아이콘 버튼: 누르면 새 도서 등록 페이지로 이동 */}
+          <Link to="/books/new" className="hero-new-book">
+            <img src={newBookIcon} alt="새 도서 등록하기" />
+          </Link>
         </div>
         {/* 같은 페이지 안의 목록 위치로 이동하는 링크라서 Link가 아닌 a 태그 사용 */}
         <a href="#book-list" className="hero-scroll">

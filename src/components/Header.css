@@ -23,13 +23,6 @@
   color: var(--color-primary);
 }
 
-.header-logo-sub {
-  margin-left: var(--space-1);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--color-text-muted);
-}
-
 .header-nav {
   display: flex;
   align-items: center;
@@ -45,10 +38,4 @@
 .header-link.active {
   color: var(--color-text);
   font-weight: 600;
-}
-
-@media (max-width: 480px) {
-  .header-logo-sub {
-    display: none;
-  }
 }
