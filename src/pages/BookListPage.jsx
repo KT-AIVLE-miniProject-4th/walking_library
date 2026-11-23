@@ -14,9 +14,14 @@ function BookListPage({ books, loading, error }) {
         <div className="hero-content">
           <h1 className="hero-title">책임</h1>
           <p className="hero-text">누구나 작가가 되어 글을 쓰고, 이야기에 어울리는 표지를 만드는 곳</p>
-          {/* 가운데 아이콘 버튼: 누르면 새 도서 등록 페이지로 이동 */}
+          {/* 가운데 아이콘 버튼: 누르면 새 도서 등록 페이지로 이동
           <Link to="/books/new" className="hero-new-book">
             <img src={newBookIcon} alt="새 도서 등록하기" />
+          </Link> */}
+          <Link to="/books/new" className="hero-create-btn">
+            <span aria-hidden="true">✎</span>
+            나만의 이야기 쓰기
+            <span aria-hidden="true">↗</span>
           </Link>
         </div>
         {/* 같은 페이지 안의 목록 위치로 이동하는 링크라서 Link가 아닌 a 태그 사용 */}
