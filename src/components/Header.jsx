@@ -8,7 +8,8 @@ function Header() {
     <header className="header">
       <div className="header-inner">
         <div className="header-brand">
-          <Link to="/" className="header-logo">
+          {/* 로고·서비스 이름도 [도서 목록]과 같이 도서 목록(#book-list) 위치로 이동 */}
+          <Link to={{ pathname: '/', hash: '#book-list' }} className="header-logo">
             <img src={logoIcon} alt="" className="header-logo-icon" />
             책임
           </Link>
