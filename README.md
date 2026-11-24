@@ -1,319 +1,140 @@
 # 📚 책임
 
 > KT AIVLE School AI 트랙 4차 미니프로젝트 · **3반 11조**
-> AI 표지 생성을 지원하는 도서관리 시스템 (Frontend)
 
-**책임**은 누구나 작가가 되어 글을 쓰고 공개할 수 있는 창작 플랫폼입니다.
-React + json-server로 도서를 등록·조회·수정·삭제하고, OpenAI 이미지 생성 API로 **글의 감성과 이야기에 어울리는 표지를 자동으로 만들어** 줍니다.
+**책임**은 누구나 글을 책으로 등록하고 작가가 될 수 있는 창작 플랫폼입니다. React와 로컬 REST API로 도서를 관리하고, 원하는 경우 AI로 표지를 만들어 저장할 수 있습니다.
 
----
+## 프로젝트 목표
 
-## 목차
-1. [프로젝트 소개](#1-프로젝트-소개)
-2. [팀 구성](#2-팀-구성-rr)
-3. [기술 스택](#3-기술-스택)
-4. [주요 기능](#4-주요-기능)
-5. [실행 방법](#5-실행-방법)
-6. [데이터 구조](#6-데이터-구조-dbjson)
-7. [API 명세](#7-api-명세)
-8. [화면 구성](#8-화면-구성)
-9. [AI 표지 생성](#9-ai-표지-생성)
-10. [일정](#10-일차별-진행-계획)
+- 도서 등록·목록·상세·수정·삭제 화면과 검색·장르 필터 구현
+- `json-server`와 `fetch`로 CRUD 연결
+- OpenAI 이미지 생성 API로 책에 어울리는 표지 생성·저장
 
----
-
-## 1. 프로젝트 소개
-
-### 문제 정의
-1. 텍스트 중심의 도서 관리는 목록에서 책의 분위기와 장르를 한눈에 알아보기 어렵다.
-2. 표지 이미지를 직접 찾거나 만들어 등록하는 일은 번거롭고, 글 내용과 어울리는 표지를 고르기도 어렵다.
-3. 학습자 입장에서는 React로 CRUD를 만들고 외부 API(OpenAI)를 연동해 보는 실전 경험이 부족하다.
-
-### 프로젝트 목표
-1. json-server와 React로 도서를 등록·조회·수정·삭제할 수 있는 도서 관리 시스템을 만든다.
-2. OpenAI 이미지 생성 API로 도서 제목과 내용에 어울리는 표지를 자동 생성하고 저장한다.
-3. 처음 봐도 쓰기 쉬운 화면(목록·상세·등록·수정)과 로딩·에러 처리를 갖춘 UI를 제공한다.
-
----
-
-## 2. 팀 구성 (R&R)
-
-> 역할은 '전담'보다 '주담당'. 진행 중 서로 돕고, 미션이 끝나면 다음 역할로 합류합니다.
+## 팀 구성
 
 | 이름 | 팀 역할 | 개발 담당 | 주요 업무 |
 | --- | --- | --- | --- |
-| 신희진  | 조장 | OpenAI 연동 | 팀 총괄, GPT Image API 호출·응답 변환, API Key 입력 UI, 에러·로딩 처리, 표지 저장 |
-| 전용제  | 발표자 | PM · 기획 | 과제 진행 관리, 요구사항·기능 명세, 일정 관리, 프로젝트 뼈대 세팅, 최종 발표 |
-| 박주영  | 검토 담당 | CRUD 연동 | json-server 세팅, 목록·상세·등록·수정·삭제 API 연동, 코드·산출물 검토 |
-| 이준혁  | PPT 제작 | UI · 레이아웃 | 페이지 구조, 공통 컴포넌트(Header, Layout, BookCard, BookForm), 디자인 톤 관리, 결과보고서 PPT |
-| 김건우  | 서기 | 발표 · 문서 | 회의 기록, README.md 정리, 데모 시연 준비 |
-| 홍수진  | 타임키퍼 | 스타일링 · QA | CSS 마감, 반응형 대응, E2E 시나리오 테스트 |
+| 신희진 | 조장 | OpenAI 연동 | 팀 총괄, 이미지 생성·표지 저장 |
+| 전용제 | 발표자 | PM · 기획 | 요구사항·일정 관리, 프로젝트 세팅, 발표 |
+| 박주영 | 검토 담당 | CRUD 연동 | json-server, 도서 API 연동, 코드 검토 |
+| 이준혁 | PPT 제작 | UI · 레이아웃 | 공통 컴포넌트, 디자인, 발표 자료 |
+| 김건우 | 서기 | 발표 · 문서 | 회의 기록, README, 시연 준비 |
+| 홍수진 | 타임키퍼 | 스타일링 · QA | CSS, 반응형, 시나리오 점검 |
 
----
-
-## 3. 기술 스택
+## 기술 스택
 
 | 구분 | 기술 |
 | --- | --- |
-| Frontend | React 19, Vite, fetch |
-| 데이터 | json-server **0.17.4** (로컬 REST API, `db.json`) |
-| AI | OpenAI GPT Image (`gpt-image-2`) |
+| 프런트엔드 | React 19, React Router 7, Vite 8, JavaScript, CSS |
+| 도서 데이터 | json-server 0.17.4, `db.json`, `fetch` |
+| AI 표지 | OpenAI 이미지 생성 API (`gpt-image-2`) |
 | 협업 | GitHub, Notion |
 
-> 별도의 백엔드 코드는 없습니다. json-server가 가짜 REST API 역할을 하고, OpenAI API는 브라우저에서 직접 호출합니다.
+별도 백엔드 애플리케이션은 없습니다. 개발 환경에서 `json-server`가 `db.json`을 REST API로 제공합니다.
 
----
+## 구현된 기능
 
-## 4. 주요 기능
+| 기능 | 구현 내용 | 위치 |
+| --- | --- | --- |
+| 목록 조회 | 도서 카드, 최신 등록순 정렬, 로딩·오류·빈 목록 안내 | `/` |
+| 검색·필터 | 제목·저자 검색과 장르 필터 동시 적용 | `/` |
+| 상세 조회 | 본문·표지·장르·작성일·수정일 표시 | `/books/:id` |
+| 등록 | 제목·저자·장르·내용 입력 후 POST, 목록으로 이동 | `/books/new` |
+| 수정 | 기존 값을 불러와 변경 필드만 PATCH, 수정일 갱신 | `/books/:id/edit` |
+| 삭제 | 확인창을 거쳐 DELETE, 목록으로 이동 | `/books/:id` |
+| 입력 검사 | 필수값, 제목 50자 이하, 내용 10자 이상; 필드별 오류 | 등록·수정 폼 |
+| AI 표지 | 프롬프트 편집, 품질·형식 선택, 생성·재생성·미리보기·저장 | 상세 화면 모달 |
 
-| No | 기능 | 설명 | 구분 | 상태 |
-| --- | --- | --- | --- | --- |
-| F1 | 도서 목록 조회 | 카드 그리드로 표지·제목·저자·장르·등록일 표시, 최신 등록순 정렬 | 필수 | ✅ |
-| F2 | 도서 상세 조회 | 표지·제목·저자·장르·작성일·수정일·본문 표시 | 필수 | ✅ |
-| F3 | 신규 도서 등록 | 제목·저자·장르·내용 입력 → POST, 완료 후 목록 이동 | 필수 | ✅ |
-| F4 | 기본 입력 검사 | 제목·저자·내용 공백 금지(trim), 장르 미선택 시 저장 불가 | 필수 | ✅ |
-| F5 | 도서 수정 | 기존 정보 불러오기 → 바뀐 필드만 PATCH, 수정일 갱신 | 필수 | ✅ |
-| F6 | 도서 삭제 | 확인 알림 후 DELETE, 목록에서 즉시 제거 | 필수 | ✅ |
-| F7 | AI 표지 생성 | 제목·장르·내용 기반 프롬프트로 OpenAI 호출 → 미리보기·재생성 | 필수 | □ |
-| F8 | API Key 입력 | password 입력창으로 입력, 코드·저장소에 저장하지 않음 | 필수 | □ |
-| F9 | 로딩·에러 상태 | 로딩 표시, 서버 오류·빈 목록 안내, 401·429 안내 | 권장 | □ |
-| F10 | 표지 저장 | Data URL을 `coverImageUrl`에 PATCH, 상세·목록에 즉시 반영 | 권장 | □ |
-| F11 | 검색·필터 | 제목·저자 검색 + 장르 필터 (Array.filter) | 도전 | □ |
-| F12 | 폼 유효성 검사(심화) | 제목 50자 이하, 내용 10자 이상 등 + 필드별 에러 메시지 | 도전 | □ |
-| F13 | 생성 옵션 선택 | quality(low/medium/high/auto), 출력 형식(png/jpeg/webp) 선택 | 도전 | □ |
+등록 화면은 **왼쪽 실시간 표지 미리보기, 오른쪽 입력 폼**입니다. 입력한 제목·저자·장르가 CSS 미리보기에 바로 반영됩니다. 등록 화면의 **[AI 표지 만들기] 버튼은 아직 동작이 연결되지 않았습니다.** AI 생성은 책 등록 후 상세 화면의 **[AI 표지 생성]**에서 사용합니다.
 
-<!-- 기능 완성 시 ⬜ → ✅ 로 변경 -->
+## 실행 방법
 
----
+Node.js 22 이상과 npm이 필요합니다. AI 표지를 생성하려면 OpenAI API Key가 필요합니다.
 
-## 5. 실행 방법
-
-### 사전 준비
-- Node.js 22 이상
-- OpenAI API Key (표지 생성 시 화면에서 직접 입력)
-
-### 설치
 ```bash
 git clone https://github.com/KT-AIVLE-miniProject-4th/walking_library.git
 cd walking_library
 npm install
 ```
 
-### 실행 (터미널 2개 필요)
-```bash
-# 터미널 1 — json-server (http://localhost:3000/books)
-npx json-server@0.17.4 --watch db.json --port 3000
+각각 다른 터미널에서 실행합니다.
 
-# 터미널 2 — React 개발 서버 (http://localhost:5173)
+```bash
+# 터미널 1: 도서 REST API (http://localhost:3000/books)
+npm run server
+```
+
+```bash
+# 터미널 2: React 개발 서버 (http://localhost:5173)
 npm run dev
 ```
 
-> ⚠️ 두 서버가 모두 켜져 있어야 정상 동작합니다.
-> ⚠️ json-server 1.x는 id를 문자열로 만들고 동작이 달라서, 팀 전체가 **0.17.4**로 통일합니다.
+도서 목록과 저장 기능에는 두 프로세스가 모두 필요합니다. `npm run build`로 빌드하고 `npm run lint`로 정적 검사를 실행할 수 있습니다.
 
-### 폴더 구조
+## 화면과 코드 구조
 
-```
+| 경로 | 화면 | 주요 동작 |
+| --- | --- | --- |
+| `/` | 홈·도서 목록 | 대표 이미지, 검색, 장르 선택, 도서 카드, 등록 |
+| `/books/new` | 도서 등록 | 실시간 표지 미리보기와 입력 폼 |
+| `/books/:id` | 도서 상세 | 본문, 수정·삭제, AI 표지 생성·저장 |
+| `/books/:id/edit` | 도서 수정 | 기존 값을 채운 공통 폼 |
+| 그 외 | 404 | 목록으로 이동 |
+
+```text
 walking_library/
-├─ db.json                 # json-server 데이터 (books)
-├─ docs/planning.md        # 기획서
-├─ index.html
-├─ package.json
+├─ db.json                    # json-server 도서 데이터
+├─ docs/planning.md           # 기획서
+├─ design-system/             # 디자인 토큰·컴포넌트 참고 자료
 └─ src/
-   ├─ api/config.js        # API_URL (서버 주소 상수)
-   ├─ constants/genres.js  # 장르 목록
-   ├─ mock/books.js        # 1일차 Mock 데이터
-   ├─ utils/formatDate.js  # 날짜 포맷 (2026.11.20)
-   ├─ components/          # Layout, Header, BookCard, BookForm (+ 같은 이름 CSS)
-   ├─ pages/               # 목록, 상세, 등록, 수정, 404 (+ 같은 이름 CSS)
-   ├─ App.jsx              # 라우팅
-   ├─ main.jsx             # 진입점 (BrowserRouter)
-   └─ index.css            # 디자인 토큰(:root) + 공통 스타일
+   ├─ api/                   # config.js, books.js, openai.js
+   ├─ assets/                # 홈 배경 이미지·아이콘
+   ├─ constants/genres.js    # 장르 목록
+   ├─ utils/                 # 날짜 표시, AI 프롬프트 생성
+   ├─ components/            # Layout, BookCard, BookForm, CoverGenerator 등
+   ├─ pages/                 # 목록·등록·상세·수정·404 화면
+   ├─ App.jsx                # 라우팅·도서 목록 상태
+   └─ index.css              # 공통 스타일·디자인 변수
 ```
 
----
+색상은 크림·갈색·녹색 계열이며 `src/index.css`의 CSS 변수를 사용합니다. 홈 대표 이미지에는 `src/assets/background.png`를 사용합니다.
 
-## 6. 데이터 구조 (db.json)
+## 도서 데이터와 CRUD
 
-리소스 이름은 `books`(복수형)이며, json-server가 이 키로 REST API를 자동 생성합니다.
+`db.json`의 `books` 배열을 `json-server`가 `http://localhost:3000/books`로 제공합니다.
 
 | 필드 | 타입 | 설명 |
 | --- | --- | --- |
-| `id` | number | 도서 식별자. POST 시 json-server가 자동 부여 |
-| `title` | string | 도서 제목 (필수, 공백 금지) |
-| `author` | string | 저자 이름 (필수) |
-| `genre` | string | 장르 (필수): 소설 · 에세이 · 시 · 판타지 · SF · 추리/스릴러 · 로맨스 · 자기계발 · 기타 |
-| `content` | string | 도서 내용. 상세 본문 + AI 표지 프롬프트 재료 |
-| `coverImageUrl` | string | 표지 이미지. 처음엔 `""`, AI 생성 후 Data URL 저장 |
-| `createdAt` | string (ISO 8601) | 등록일 (`new Date().toISOString()`) |
-| `updatedAt` | string (ISO 8601) | 수정일. 수정·표지 저장 시 갱신 |
+| `id` | number | POST 시 부여되는 식별자 |
+| `title` | string | 제목 |
+| `author` | string | 저자 |
+| `genre` | string | 장르 |
+| `content` | string | 본문과 AI 프롬프트 재료 |
+| `coverImageUrl` | string | 처음에는 빈 문자열, 저장한 표지는 Data URL |
+| `createdAt` | ISO 8601 문자열 | 등록 시각 |
+| `updatedAt` | ISO 8601 문자열 | 등록·수정·표지 저장 시각 |
 
-```json
-{
-  "books": [
-    {
-      "id": 1,
-      "title": "별빛 아래의 서점",
-      "author": "홍길동",
-      "genre": "에세이",
-      "content": "바닷가 작은 마을, 밤에만 문을 여는 서점이 있다. 주인은 손님이 고른 책 사이에 별자리 엽서를 끼워 준다. 그 서점에서 보낸 1년의 기록을 담은 에세이.",
-      "coverImageUrl": "",
-      "createdAt": "2026-11-20T09:00:00.000Z",
-      "updatedAt": "2026-11-20T09:00:00.000Z"
-    }
-  ]
-}
-```
-
----
-
-## 7. API 명세
-
-### json-server (`http://localhost:3000`)
-
-| 메서드 | URL | 설명 | Body | 사용 화면 |
-| --- | --- | --- | --- | --- |
-| GET | `/books` | 도서 전체 목록 조회 | - | 목록 |
-| GET | `/books/:id` | 도서 상세 조회 | - | 상세, 수정 |
-| POST | `/books` | 신규 도서 등록 (id 자동 부여) | 전체 필드 (id 제외) | 등록 |
-| PATCH | `/books/:id` | 도서 일부 수정 | 바뀐 필드 + `updatedAt` | 수정 |
-| PATCH | `/books/:id` | AI 표지 저장 | `coverImageUrl` + `updatedAt` | 상세 |
-| DELETE | `/books/:id` | 도서 삭제 | - | 상세 |
-
-### OpenAI 이미지 생성
-
-| 항목 | 값 |
-| --- | --- |
-| URL | `POST https://api.openai.com/v1/images/generations` |
-| Headers | `Content-Type: application/json`, `Authorization: Bearer <API Key>` (Bearer 뒤 띄어쓰기 필수) |
-| Body | `{ "model": "gpt-image-2", "prompt": "A book cover for ...", "n": 1, "size": "1024x1536", "quality": "low", "output_format": "png" }` |
-| 응답 | `data[0].b64_json` → `data:image/png;base64,${b64_json}` Data URL로 변환 |
-
----
-
-## 8. 화면 구성
-
-| 경로 | 화면 | 주요 내용 |
-| --- | --- | --- |
-| `/` | 도서 목록 | 검색창, 장르 필터, 도서 카드 그리드, [새 도서 등록] |
-| `/books/new` | 도서 등록 | 제목·저자·장르·내용 입력 폼, [저장] [취소] |
-| `/books/:id` | 도서 상세 | 표지, 도서 정보·본문, [수정] [삭제] [AI 표지 생성] |
-| `/books/:id/edit` | 도서 수정 | 기존 값이 채워진 폼, [저장] [취소] |
-| `*` | 404 | "페이지를 찾을 수 없어요" + 목록으로 |
-
-### 화면 전환 흐름
-```
-[목록 /] ──[새 도서 등록]──▶ [등록 /books/new] ──저장 성공──▶ [목록 /]
-   │                                          └──취소──▶ [목록 /]
-   │
-   └──카드 클릭──▶ [상세 /books/:id]
-                    ├──[수정]──▶ [수정 /books/:id/edit] ──저장 성공──▶ [상세]
-                    │                                   └──취소──▶ [상세]
-                    ├──[삭제] → 확인창 ──확인──▶ [목록 /] (카드 제거)
-                    ├──[AI 표지 생성] → 생성 패널 ──[이 표지 사용]──▶ [상세] (표지 반영)
-                    └──[목록으로]──▶ [목록 /]
-
-헤더(공통): [서비스 로고] → 목록 · [도서 목록] → 목록 · [새 도서 등록] → 등록
-```
-
-### 사용자 시나리오
-| 단계 | 사용자 행동 | 시스템 반응 |
-| --- | --- | --- |
-| 1. 등록 | [새 도서 등록] → 제목·저자·장르·내용 입력 → [저장] | 공백이면 저장 막고 안내, 통과하면 POST 후 목록 이동 |
-| 2. 목록 | 방금 등록한 책 확인 | 최신순 맨 앞에 카드 표시 (표지 없으면 기본 이미지) |
-| 3. 상세 | 카드 클릭 | 본문·작성일·수정일 표시 |
-| 4. 수정 | [수정] → 오타 수정 → [저장] | 바뀐 필드만 PATCH, 수정일 갱신 후 상세로 이동 |
-| 5. 표지 생성 | [AI 표지 생성] → API Key 입력 → [생성] | "생성 중..." → 미리보기 → [다시 생성] 가능 |
-| 6. 표지 저장 | [이 표지 사용] | PATCH 저장, 상세·목록 카드에 바로 반영 |
-| 7. 삭제 | [삭제] → 확인 | DELETE 후 목록 이동, 카드 사라짐 |
-
-### 스크린샷
-<!-- 3일차에 주요 화면 캡처 추가 -->
-| 목록 | 상세 | AI 표지 생성 |
-| --- | --- | --- |
-| (이미지) | (이미지) | (이미지) |
-
----
-
-## 9. AI 표지 생성
-
-1. 상세 페이지에서 **[AI 표지 생성]** 클릭 → API Key 입력
-2. 제목·장르·내용으로 프롬프트 구성 → OpenAI에 POST 요청
-3. 응답의 `b64_json`을 Data URL로 변환해 미리보기
-4. **[이 표지 사용]** → `PATCH /books/:id`로 `coverImageUrl` 저장
-5. 상세·목록 화면에 표지 즉시 반영
-
-| 상황 | 처리 |
-| --- | --- |
-| API Key 미입력 | 생성 불가 안내 |
-| 401 Unauthorized | API Key 확인 안내 |
-| 429 Rate Limit | 사용량 한도, 잠시 후 재시도 안내 |
-| 네트워크 오류 | 에러 메시지 표시 |
-
-> 🔒 **API Key 보안**: API Key는 화면의 password 입력창으로만 받고, 코드·GitHub·localStorage에 저장하지 않습니다. 표지 생성 시 OpenAI 사용 요금이 발생합니다.
-
----
-
-## 10. 일차별 진행 계획
-
-| 일차 | 미션 | 목표 | 산출물 |
+| 작업 | 요청 | 사용 위치 | 성공 후 처리 |
 | --- | --- | --- | --- |
-| 1일차 | M1 기획/설계 · M2 환경 설정 | 기획 확정 + Vite·json-server 뼈대 + Mock UI + Git 초기 커밋 | 기획서, db.json, README.md(기본) |
-| 2일차 | M3 조회 · M4 등록·수정·삭제 | fetch로 CRUD 전체 연동, 폼 상태관리 + 불변성 3패턴 | CRUD 소스코드, README API 설명 |
-| 3일차 | M5 OpenAI 표지 생성 · M6 저장·발표 | 표지 생성·저장, UX 마무리, 발표 | `AI_3반_11조.zip` (소스코드 + `AI_11조.pptx` + README.md), 16:00 제출 |
+| 목록 조회 | `GET /books` | `App.jsx` | 최신순 정렬해 목록 상태 저장 |
+| 상세 조회 | `GET /books/:id` | `BookDetailPage`, `BookEditPage` | 상세 표시·수정 폼 초기화 |
+| 등록 | `POST /books` | `BookCreatePage` | 새 도서를 목록 맨 앞에 추가 |
+| 수정 | `PATCH /books/:id` | `BookEditPage` | 변경 필드와 `updatedAt` 전송, 항목 교체 |
+| 표지 저장 | `PATCH /books/:id` | `BookDetailPage` | `coverImageUrl`·`updatedAt` 갱신 |
+| 삭제 | `DELETE /books/:id` | `BookDetailPage` | 목록에서 항목 제거 |
 
----
+요청 함수는 `src/api/books.js`에 모았고 주소는 `src/api/config.js`의 `API_URL`을 사용합니다. `App.jsx`가 목록 상태를 관리하며 등록은 `[newBook, ...prev]`, 수정은 `map`, 삭제는 `filter`로 새 배열을 만들어 반영합니다. 검색·장르 필터는 목록 상태에 `filter`를 적용합니다. 요청 실패 시 오류를 표시하고 저장 중에는 중복 제출을 막습니다.
 
-## 11. 현재까지 진행한 내용
+## AI 표지 생성 흐름
 
-> 제공된 main 소스 기준입니다. 아래의 구현 내용은 코드에서 확인한 범위이며, 실행 테스트 완료를 의미하지 않습니다.
+1. 도서 상세 화면에서 **[AI 표지 생성]**을 누릅니다.
+2. API Key를 입력하고 자동 작성된 프롬프트를 필요하면 수정합니다. 프롬프트에는 제목·저자·장르와 본문 앞 600자가 포함됩니다.
+3. 품질(`low`, `medium`, `high`, `auto`)과 형식(`png`, `jpeg`, `webp`)을 선택해 생성합니다. 결과를 미리 보거나 다시 생성할 수 있습니다.
+4. **[이 표지 사용]**을 누르면 Base64 응답을 Data URL로 변환해 `coverImageUrl`에 PATCH 저장합니다.
 
-### 11-1. 프로젝트 기반과 공통 구조
-
-- Vite + React 프로젝트, 개발·빌드·미리보기·린트 명령 구성
-- json-server 0.17.4 고정, `db.json` 샘플 데이터 및 `npm run server` 준비
-- `src/api/config.js`에 API 기본 주소 정의 (화면 연결은 예정)
-- `BrowserRouter`와 `Layout`의 `Outlet`을 사용한 중첩 라우팅 구성
-- 모든 페이지에 공통 `Header`·`Footer` 적용
-- 목록·등록 메뉴와 GitHub 바로가기 제공
-- 장르 목록(`GENRES`)과 날짜 포맷(`formatDate`) 공통화
-- GitHub 버그·기능 이슈 템플릿과 PR 템플릿 추가
-
-### 11-2. 화면별 구현 내용
-
-| 구분 | 현재 구현 내용 | 관련 파일 |
-| --- | --- | --- |
-| 목록 | `GET /books` fetch 연동, 등록일 내림차순 정렬, 로딩·에러·빈 목록 상태 처리 | `src/pages/BookListPage.jsx` |
-| 도서 카드 | 표지·제목·장르·저자·등록일 표시, 카드 클릭 시 상세 이동, 표지가 없으면 제목 placeholder 표시 | `src/components/BookCard.jsx` |
-| 상세 | `GET /books/:id` fetch 연동, 본문·작성일·수정일 표시, 로딩·에러·없는 도서 안내 | `src/pages/BookDetailPage.jsx` |
-| 등록·수정 | 공통 BookForm 재사용, useState로 입력값 관리, 객체 복사로 상태 갱신, 수정 시 기존 값 채우기 | `src/components/BookForm.jsx` |
-| 예외 경로 | 정의되지 않은 URL에 404 안내와 목록 링크 제공 | `src/pages/NotFoundPage.jsx` |
-
-등록·수정 버튼은 현재 폼의 기본 제출만 막으며, 데이터 저장이나 저장 완료 후 이동은 수행하지 않습니다. 상세·수정 페이지의 도서 조회도 API가 아닌 Mock 데이터의 `find`를 사용합니다.
-
-### 11-3. 디자인과 반응형 스타일
-
-- Bone & Kombu를 바탕으로 크림색 배경, 갈색 텍스트, 녹색 주요 버튼 적용
-- `src/index.css`에서 색상·간격·글자 크기·모서리·그림자를 CSS 변수로 관리
-- 한글 Pretendard와 영문 Helvetica Neue 폰트 스택 적용
-- 도서 그리드: 기본 4열 → 화면 폭 990px 이하 3열 → 750px 이하 2열
-- Hero 제목에 `clamp()` 적용, 목록 이동에 부드러운 스크롤 적용
-- `design-system/`에 토큰, Button·TextInput·Select·Badge 참고 구현 및 데모 정리
-
-> 앱은 자체 JSX 컴포넌트와 CSS를 사용합니다. `design-system/components/bundle.js`를 직접 사용하는 구조는 아닙니다. Hero 배경은 `/hero.jpg`를 참조하지만 현재 ZIP에는 `public/hero.jpg`가 없어 배경 사진 추가가 필요합니다.
-
-### 11-4. 다음 작업
-
-1. 기본 입력 검사, POST·PATCH·DELETE 및 성공 후 화면 이동 구현
-2. 로딩·요청 실패·빈 목록 안내와 중복 제출 방지 처리 (등록·수정·삭제)
-3. API Key 입력, AI 이미지 생성·미리보기·재생성·표지 저장 연동
-4. 검색·장르 필터와 심화 유효성 검사 등 도전 기능 검토
-5. Hero 이미지 보완, 주요 화면 캡처 추가, 반응형·CRUD·AI 사용자 시나리오 검증
+브라우저가 OpenAI `POST /v1/images/generations`를 직접 호출하며 모델은 `gpt-image-2`, 크기는 `1024x1536`입니다. API Key는 모달의 password 입력값으로만 보관하고 닫으면 사라지며 코드·`localStorage`·`db.json`에 저장하지 않습니다. 표지의 Data URL은 `db.json`에 저장됩니다. 생성 시 OpenAI 이용 요금이 발생할 수 있고, 401·429·네트워크 오류는 화면에 안내합니다.
 
 ## 관련 문서
-- 기획서: [`planning.md`](./planning.md)
-- 디자인 시스템: [`design-system/README.md`](./design-system/README.md)
-- 팀 노션: 4차 미니프로젝트 FrontEnd (11조)
 
-## 회고
-<!-- 3일차에 작성: 어려웠던 점과 해결 방법, 배운 점 -->
+- [기획서](./docs/planning.md)
+- [디자인 시스템](./design-system/README.md)
