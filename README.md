@@ -4,7 +4,7 @@
 
 **책임**은 누구나 글을 책으로 등록하고 작가가 될 수 있는 창작 플랫폼입니다. React와 로컬 REST API로 도서를 관리하고, 원하는 경우 AI로 표지를 만들어 저장할 수 있습니다.
 
-![책임 첫 화면](docs/screenshots/main.png)
+![책임 첫 화면](./docs/screenshots/main.png)
 
 ## 프로젝트 목표
 
@@ -34,12 +34,12 @@
 
 별도 백엔드 애플리케이션은 없습니다. 개발 환경에서 `json-server`가 `db.json`을 REST API로 제공합니다.
 
-## 구현된 기능
+## 주요 기능
 
 | 기능 | 구현 내용 | 위치 |
 | --- | --- | --- |
 | 목록 조회 | 도서 카드, 최신 등록순 정렬, 로딩·오류·빈 목록 안내 | `/` |
-| 검색·필터 | 제목·저자 검색과 장르 필터 동시 적용 | `/` |
+| 검색·필터 | 제목·저자 검색과 장르 필터 동시 적용, 한글 자모·공백 정규화 | `/` |
 | 상세 조회 | 본문·표지·장르·작성일·수정일 표시 | `/books/:id` |
 | 등록 | 제목·저자·장르·내용 입력 후 POST, 목록으로 이동 | `/books/new` |
 | 수정 | 등록 화면과 같은 레이아웃, 기존 값·표지를 불러와 변경 필드만 PATCH, 수정일 갱신 | `/books/:id/edit` |
@@ -79,7 +79,7 @@ npm run dev
 | --- | --- | --- |
 | `/` | 홈·도서 목록 | 대표 이미지, 검색, 장르 선택, 도서 카드, 등록 |
 | `/books/new` | 도서 등록 | 실시간 표지 미리보기와 입력 폼 |
-| `/books/:id` | 도서 상세 | 표지·본문 표시, 수정·삭제 |
+| `/books/:id` | 도서 상세 | 표지·본문·날짜 표시, 수정·삭제 |
 | `/books/:id/edit` | 도서 수정 | 기존 값·표지를 채운 공통 폼, AI 표지 수정 |
 | 그 외 | 404 | 목록으로 이동 |
 
@@ -87,19 +87,53 @@ npm run dev
 walking_library/
 ├─ db.json                    # json-server 도서 데이터
 ├─ docs/planning.md           # 기획서
+├─ docs/screenshots/          # 실제 실행 화면 캡처
 ├─ design-system/             # 디자인 토큰·컴포넌트 참고 자료
 └─ src/
    ├─ api/                   # config.js, books.js, openai.js
    ├─ assets/                # 홈 배경 이미지·아이콘
    ├─ constants/genres.js    # 장르 목록
-   ├─ utils/                 # 날짜 표시, AI 프롬프트 생성
-   ├─ components/            # Layout, BookCard, BookForm, CoverGenerator 등
+   ├─ utils/                 # 날짜 표시, 한글 검색 정규화, AI 프롬프트 생성
+   ├─ components/            # Layout, BookCard, BookForm, CoverGenerator, ScrollToTop 등
    ├─ pages/                 # 목록·등록·상세·수정·404 화면
    ├─ App.jsx                # 라우팅·도서 목록 상태
    └─ index.css              # 공통 스타일·디자인 변수
 ```
 
 색상은 크림·갈색·녹색 계열이며 `src/index.css`의 CSS 변수를 사용합니다. 홈 대표 이미지에는 `src/assets/background.png`를 사용합니다.
+
+## 화면 스크린샷
+
+아래는 `main` 코드를 로컬에서 실행하고 `db.json`의 예시 도서를 불러와 직접 캡처한 화면입니다. AI 표지 모달 이미지는 **생성 전** 상태입니다. 실제 생성 요청에는 개인 API Key와 OpenAI 이용 요금이 필요합니다.
+
+| 홈 | 도서 목록 |
+| --- | --- |
+| ![책임 홈과 새 도서 등록 이동 버튼](./docs/screenshots/home.jpg) | ![AI 표지 카드와 검색·장르 필터](./docs/screenshots/book-list.jpg) |
+
+| 새 도서 등록 | 도서 수정 |
+| --- | --- |
+| ![작성 중인 책의 실시간 표지 미리보기와 등록 폼](./docs/screenshots/book-create.jpg) | ![기존 AI 표지와 값이 채워진 수정 폼](./docs/screenshots/book-edit.jpg) |
+
+| 도서 상세 | AI 표지 생성 모달 |
+| --- | --- |
+| ![도서 표지·본문·수정과 삭제 버튼](./docs/screenshots/book-detail.jpg) | ![모델·크기·품질·형식과 프롬프트 선택 화면](./docs/screenshots/cover-generator.jpg) |
+
+## 구현 내용
+
+### 화면과 상태 관리
+
+- `App.jsx`가 도서 목록 상태와 로딩·오류 상태를 관리합니다. 처음에 `GET /books`로 목록을 불러와 등록일 최신순으로 정렬합니다.
+- `BrowserRouter`와 `Layout`으로 홈·등록·상세·수정·404 경로를 연결합니다. `ScrollToTop`은 화면 이동 시 맨 위로, `/#book-list` 이동 시 목록 위치로 스크롤합니다.
+- `BookForm.jsx`를 등록과 수정에서 함께 사용합니다. 입력값을 `useState`로 관리하고 제목·저자·장르·내용의 필수 입력, 제목 50자 이하, 내용 10자 이상을 검사해 필드별 오류를 보여줍니다.
+- 등록·수정 화면의 왼쪽 카드에 제목·저자·장르를 실시간으로 표시합니다. AI 표지를 고른 뒤에는 CSS 미리보기 대신 그 이미지를 보여줍니다.
+- 목록은 제목·저자 검색과 장르 필터를 동시에 적용합니다. `searchKorean.js`에서 한글 자모와 공백을 정규화해 검색어를 비교합니다.
+
+### 저장 흐름
+
+- `src/api/books.js`가 `fetch` 요청을 맡고 기본 주소는 `src/api/config.js` 한 곳에서 정합니다. 요청이 실패하면 오류를 안내하고, 저장 중에는 중복 제출을 막습니다.
+- 등록은 `POST /books` 응답을 목록 맨 앞에 더하고, 수정은 변경된 필드만 `PATCH /books/:id`로 보내 `map`으로 해당 항목을 교체합니다. 삭제는 확인 후 `DELETE /books/:id`를 호출하고 `filter`로 목록에서 제거합니다.
+- AI 표지를 만들 때 `buildCoverPrompt.js`가 제목·저자·장르와 본문 앞 600자로 프롬프트를 작성합니다. `CoverGenerator.jsx`에서 프롬프트와 모델·크기·품질·형식을 선택하고 생성 결과를 미리 볼 수 있습니다.
+- **[이 표지 사용]**은 이미지를 페이지 상태에 보관합니다. 등록 화면에서는 도서 등록 시 `coverImageUrl`을 함께 POST하고, 수정 화면에서는 **[수정 내용 저장하기]**를 누를 때 변경된 표지를 함께 PATCH합니다. 모달에서 표지만 선택하고 화면 저장을 취소하면 서버 데이터는 바뀌지 않습니다.
 
 ## 도서 데이터와 CRUD
 
