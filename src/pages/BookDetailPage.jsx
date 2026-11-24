@@ -61,7 +61,7 @@ function BookDetailPage({ onBookDeleted, onBookUpdated }) {
     return (
       <div className="empty-state">
         <p>도서를 불러오지 못했어요: {error}</p>
-        <Link to="/" className="btn">
+        <Link to="/#book-list" className="btn">
           목록으로 돌아가기
         </Link>
       </div>
@@ -72,7 +72,7 @@ function BookDetailPage({ onBookDeleted, onBookUpdated }) {
     return (
       <div className="empty-state">
         <p>도서를 찾을 수 없어요.</p>
-        <Link to="/" className="btn">
+        <Link to="/#book-list" className="btn">
           목록으로 돌아가기
         </Link>
       </div>
@@ -113,7 +113,7 @@ function BookDetailPage({ onBookDeleted, onBookUpdated }) {
           </button>
         </div>
 
-        <Link to="/" className="book-detail-back">
+        <Link to="/#book-list" className="book-detail-back">
           ← 목록으로
         </Link>
       </div>

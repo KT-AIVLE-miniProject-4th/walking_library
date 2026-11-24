@@ -17,9 +17,10 @@ function Header() {
           </span>
         </div>
         <nav className="header-nav">
-          <a href="/#book-list" className="header-link">
+          {/* 어느 페이지에서 눌러도 첫 화면의 도서 목록(#book-list) 위치로 이동 */}
+          <Link to={{ pathname: '/', hash: '#book-list' }} className="header-link">
             도서 목록
-          </a>
+          </Link>
           <NavLink to="/books/new" className="btn btn-primary">
             새 도서 등록
           </NavLink>
