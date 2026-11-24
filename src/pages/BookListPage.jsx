@@ -7,17 +7,12 @@ import newBookIcon from '../assets/책임 아이콘.png';
 import { normalizeForSearch } from '../utils/searchKorean.js';
 import './BookListPage.css';
 
-// 첫 페이지: 화면을 꽉 채우는 대표 사진(hero) + 아래로 스크롤하면 도서 목록
-// books, loading, error는 App에서 관리하며 props로 전달받는다. 그리고 렌더링
+
 function BookListPage({ books, loading, error }) {
   const [query, setQuery] = useState('');
   const [genre, setGenre] = useState('');
   const location = useLocation();
 
-  // 헤더의 [도서 목록]으로 들어오면(주소에 #book-list) 도서 목록 위치로 스크롤
-  // location.key: 이미 #book-list인 상태에서 다시 눌러도 매번 스크롤되도록 함께 감시
-  // loading: 새로고침 직후에는 도서가 없어 페이지가 짧아 스크롤이 중간에 멈춘다
-  //          → 도서를 다 불러온 뒤(loading이 false가 될 때) 스크롤
   useEffect(() => {
     if (!loading && location.hash === '#book-list') {
       document.getElementById('book-list')?.scrollIntoView();
@@ -41,15 +36,10 @@ function BookListPage({ books, loading, error }) {
 
   return (
     <>
-      {/* 대표 사진 영역: 사진 파일은 public/hero.jpg */}
       <section className="hero">
         <div className="hero-content">
           <h1 className="hero-title">책임</h1>
           <p className="hero-text">누구나 작가가 되어 글을 쓰고, 이야기에 어울리는 표지를 만드는 곳</p>
-          {/* 가운데 아이콘 버튼: 누르면 새 도서 등록 페이지로 이동
-          <Link to="/books/new" className="hero-new-book">
-            <img src={newBookIcon} alt="새 도서 등록하기" />
-          </Link> */}
           <Link to="/books/new" className="hero-create-btn">
             <span aria-hidden="true">✎</span>
             나만의 이야기 쓰기
@@ -62,7 +52,6 @@ function BookListPage({ books, loading, error }) {
         </a>
       </section>
 
-      {/* 도서 목록: 사진 아래로 스크롤하면 보인다 */}
       <section id="book-list" className="book-list">
         <div className="book-list-toolbar">
           <h2 className="page-title">
