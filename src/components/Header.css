@@ -105,9 +105,9 @@
   transition: color 0.3s ease;
 }
 
+/* 사진 위 hover: 밑줄 없이 흰 글자 유지 (굵게는 위 .header-link:hover 공통 규칙) */
 .header-transparent .header-link:hover {
   color: var(--color-on-primary);
-  text-decoration: underline;
 }
 
 /* *** 반응형 CSS 추가 *** */
