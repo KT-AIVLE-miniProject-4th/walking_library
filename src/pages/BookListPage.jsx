@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BookCard from '../components/BookCard.jsx';
 import SearchBar from '../components/SearchBar.jsx';
 import GenreFilter from '../components/GenreFilter.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import newBookIcon from '../assets/책임 아이콘.png';
 import { normalizeForSearch } from '../utils/searchKorean.js';
 import './BookListPage.css';
@@ -12,6 +12,15 @@ import './BookListPage.css';
 function BookListPage({ books, loading, error }) {
   const [query, setQuery] = useState('');
   const [genre, setGenre] = useState('');
+  const location = useLocation();
+
+  // 헤더의 [도서 목록]으로 들어오면(주소에 #book-list) 도서 목록 위치로 스크롤
+  // location.key: 이미 #book-list인 상태에서 다시 눌러도 매번 스크롤되도록 함께 감시
+  useEffect(() => {
+    if (location.hash === '#book-list') {
+      document.getElementById('book-list')?.scrollIntoView();
+    }
+  }, [location.key, location.hash]);
 
   // 자모 분해 + 공백 제거 + 소문자 변환 후 비교
   const keyword = normalizeForSearch(query);

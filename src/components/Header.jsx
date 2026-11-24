@@ -8,7 +8,8 @@ function Header() {
     <header className="header">
       <div className="header-inner">
         <div className="header-brand">
-          <Link to="/" className="header-logo">
+          {/* 로고·서비스 이름도 [도서 목록]과 같이 도서 목록(#book-list) 위치로 이동 */}
+          <Link to={{ pathname: '/', hash: '#book-list' }} className="header-logo">
             <img src={logoIcon} alt="" className="header-logo-icon" />
             책임
           </Link>
@@ -17,9 +18,10 @@ function Header() {
           </span>
         </div>
         <nav className="header-nav">
-          <a href="/#book-list" className="header-link">
+          {/* 어느 페이지에서 눌러도 첫 화면의 도서 목록(#book-list) 위치로 이동 */}
+          <Link to={{ pathname: '/', hash: '#book-list' }} className="header-link">
             도서 목록
-          </a>
+          </Link>
           <NavLink to="/books/new" className="btn btn-primary">
             새 도서 등록
           </NavLink>
