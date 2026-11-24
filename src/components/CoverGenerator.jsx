@@ -23,37 +23,29 @@ const MODELS = [
   { id: 'gpt-image-1-mini', label: 'gpt-image-1-mini (저렴)', sizes: FIXED_SIZES },
 ];
 
-// AI 표지 생성 모달 (상세 페이지·새 도서 등록 페이지에서 연다)
-// - book: 표지를 만들 도서 (등록 페이지에서는 입력 중인 값)
-// - onClose: 모달 닫기
-// - onUseCover(imageUrl): [이 표지 사용]을 누르면 부르는 async 함수 (저장은 페이지가 담당)
 function CoverGenerator({ book, onClose, onUseCover }) {
-  // API Key는 이 컴포넌트의 state에만 있다 → 모달을 닫으면 사라진다 (저장 금지)
   const [apiKey, setApiKey] = useState('');
   const [model, setModel] = useState(MODELS[0].id);
   const [size, setSize] = useState(DEFAULT_SIZE);
   const [quality, setQuality] = useState('low');
   const [outputFormat, setOutputFormat] = useState('png');
-  // 프롬프트는 처음 열 때 한 번 만들고, 그 뒤로는 사용자가 고칠 수 있다
   const [prompt, setPrompt] = useState(() => buildCoverPrompt(book));
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null); // 생성된 표지 (Data URL)
-  const [saving, setSaving] = useState(false); // [이 표지 사용] 저장 중 여부
+  const [imageUrl, setImageUrl] = useState(null);
+  const [saving, setSaving] = useState(false);
 
-  // Esc 키로 닫기
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    // 정리: 모달이 사라지면 이벤트도 해제
+
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
   const canGenerate = apiKey.trim() !== '' && prompt.trim() !== '' && !generating && !saving;
 
-  // 지금 고른 모델이 지원하는 크기 목록
   const sizeOptions = MODELS.find((m) => m.id === model).sizes;
 
   // 모델을 바꿀 때, 새 모델이 지원하지 않는 크기였다면 기본 크기로 되돌린다
@@ -71,7 +63,6 @@ function CoverGenerator({ book, onClose, onUseCover }) {
     try {
       await onUseCover(imageUrl);
     } catch (err) {
-      // 실패하면 모달에 남아서 다시 시도할 수 있게
       setError(`표지를 저장하지 못했어요: ${err.message}`);
       setSaving(false);
     }
@@ -94,9 +85,7 @@ function CoverGenerator({ book, onClose, onUseCover }) {
   };
 
   return (
-    // 바깥 어두운 영역을 누르면 닫힌다
     <div className="cover-modal-backdrop" onClick={onClose}>
-      {/* 모달 안쪽을 누를 때는 닫히지 않도록 클릭이 바깥으로 전달되는 것을 막는다 */}
       <div
         className="cover-modal"
         role="dialog"
@@ -112,7 +101,6 @@ function CoverGenerator({ book, onClose, onUseCover }) {
         </header>
 
         <div className="cover-modal-body">
-          {/* 왼쪽: 입력 / Enter로도 생성할 수 있도록 form 사용 */}
           <form className="cover-form" onSubmit={handleGenerate}>
             <label className="cover-field">
               <span className="cover-label">OpenAI API Key</span>
@@ -191,7 +179,6 @@ function CoverGenerator({ book, onClose, onUseCover }) {
                 {generating && <span className="spinner" aria-hidden="true" />}
                 {generating ? '생성 중...' : imageUrl ? '다시 생성' : '표지 생성'}
               </button>
-              {/* 이 표지 사용: json-server에 coverImageUrl로 저장 */}
               {imageUrl && (
                 <button type="button" className="btn" onClick={handleUseCover} disabled={generating || saving}>
                   {saving && <span className="spinner" aria-hidden="true" />}

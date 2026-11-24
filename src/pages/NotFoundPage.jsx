@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import './NotFoundPage.css';
 
-// 정의되지 않은 경로 (404)
 function NotFoundPage() {
   return (
     <div className="empty-state">

@@ -3,7 +3,6 @@ import BookCard from '../components/BookCard.jsx';
 import SearchBar from '../components/SearchBar.jsx';
 import GenreFilter from '../components/GenreFilter.jsx';
 import { Link, useLocation } from 'react-router-dom';
-import newBookIcon from '../assets/책임 아이콘.png';
 import { normalizeForSearch } from '../utils/searchKorean.js';
 import './BookListPage.css';
 

@@ -3,12 +3,11 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* 첫 화면 사진을 화면 끝까지 넓힐 때 생기는 가로 스크롤 방지 */
   overflow-x: clip;
 }
 
 .layout-main {
-  flex: 1; /* 남는 높이를 본문이 차지해서 푸터를 아래로 밀어낸다 */
+  flex: 1;
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;

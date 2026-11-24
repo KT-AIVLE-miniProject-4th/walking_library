@@ -1,13 +1,11 @@
 import { API_URL } from './config.js';
 
-// 공통 요청: 응답이 ok가 아니면 에러를 던진다
 async function request(path) {
   const res = await fetch(`${API_URL}${path}`);
   if (!res.ok) throw new Error(`서버 오류 (${res.status})`);
   return res.json();
 }
 
-// 본문이 있는 요청 (POST, PATCH, DELETE)
 async function requestWithBody(path, method, body) {
   const res = await fetch(`${API_URL}${path}`, {
     method,

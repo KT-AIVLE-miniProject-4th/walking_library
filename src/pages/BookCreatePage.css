@@ -21,7 +21,6 @@
 
 .book-create-heading h1 {
   margin: var(--space-4) 0 var(--space-4);
-  /* 한 줄에 들어가도록 첫 화면 제목과 같은 크기 변수 사용 (좁은 화면에서는 자연스럽게 줄바꿈) */
   font-size: var(--text-hero);
   font-weight: 600;
   letter-spacing: -0.06em;

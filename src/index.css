@@ -1,13 +1,6 @@
 /* Pretendard (한글 웹폰트) */
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
-/* ==========================================================
-   디자인 토큰
-   - 모든 CSS는 아래 변수만 사용한다 (색 하드코딩 금지)
-   - :root 값만 바꾸면 전체 디자인이 바뀐다
-   - 값은 design-system/ (Bone & Kombu) 토큰을 따른다.
-     변수 이름은 앱 기존 이름을 유지하고, 오른쪽 주석에 원본 토큰을 적었다.
-   ========================================================== */
 :root {
   /* 색상 */
   --color-bg: #f6eee8; /* 페이지 배경 (bone보다 밝은 크림색, 팀 지정) */

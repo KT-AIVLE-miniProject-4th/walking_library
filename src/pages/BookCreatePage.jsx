@@ -11,7 +11,6 @@ function BookCreatePage({ onBookCreated }) {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState(null);
-  // AI 표지: 고른 표지(Data URL)와, 모달을 열 때 넘길 입력값 (null이면 모달 닫힘)
   const [coverImageUrl, setCoverImageUrl] = useState('');
   const [coverDraft, setCoverDraft] = useState(null);
 
@@ -25,14 +24,12 @@ function BookCreatePage({ onBookCreated }) {
     setSubmitting(true);
     setServerError(null);
     try {
-      // 응답으로 id 포함된 객체 수신
       const newBook = await createBook({
         ...formData,
-        coverImageUrl, // AI 표지를 골랐으면 그 Data URL, 아니면 ''
+        coverImageUrl,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });
-      // 목록 state에 새 항목 추가
       onBookCreated(newBook);
       navigate('/');
     } catch (err) {
@@ -58,7 +55,7 @@ function BookCreatePage({ onBookCreated }) {
         onOpenCoverGenerator={setCoverDraft}
       />
 
-      {/* AI 표지 생성 모달: BookForm(<form>) 바깥에 둬야 모달 안의 생성 버튼이 도서 등록을 실행하지 않는다 */}
+      {/* AI 표지 생성 모달 */}
       {coverDraft && (
         <CoverGenerator book={coverDraft} onClose={() => setCoverDraft(null)} onUseCover={handleUseCover} />
       )}

@@ -4,7 +4,6 @@ import Footer from './Footer.jsx';
 import './Layout.css';
 import ScrollToTop from './ScrollToTop.jsx';
 
-// 공통 레이아웃: 상단 Header + 페이지 본문(main) + 하단 Footer
 function Layout() {
   return (
     <div className="layout">
