@@ -5,22 +5,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* 헤더를 뺀 화면 높이만큼 꽉 채우기 (svh: 모바일 주소창을 뺀 높이) */
-  /* min-height: calc(100svh - var(--header-height)); */
   min-height: 100svh;
-
-  /* Layout의 main 폭 제한·여백을 벗어나 화면 끝까지 넓히기 */
   margin-inline: calc(50% - 50vw);
-  /* margin-top: calc(-1 * var(--space-6)); */
-  /* 헤더 높이만큼 배경을 위로 확장 */
   margin-top: calc(-1 * var(--header-height));
-
-  /* 헤더 뒤에 가려지는 영역을 고려 */
   padding-top: calc(var(--header-height) + var(--space-6));
-
   margin-bottom: var(--space-7);
   padding: var(--space-6) var(--space-4);
-  /* 생성한 배경사진 첨부 */
   background:
   linear-gradient(
     rgba(30, 35, 20, 0.18),
@@ -39,7 +29,6 @@
   max-width: var(--max-width);
 }
 
-/* 중앙 메인 제목 */
 .hero-title {
   font-size: clamp(48px, 5vw, 72px);
   font-weight: 800;
@@ -52,7 +41,6 @@
     0 4px 24px rgba(30, 25, 15, 0.2);
 }
 
-/* 중앙 설명 */
 .hero-text {
   font-size: clamp(16px, 1.5vw, 20px);
   font-weight: 500;
@@ -66,7 +54,6 @@
     0 2px 8px rgba(30, 25, 15, 0.5);
 }
 
-/* 가운데 새 도서 등록 아이콘 버튼 */
 .hero-new-book {
   display: block;
   width: min(260px, 70vw);
@@ -74,7 +61,6 @@
   transition: transform 0.2s;
 }
 
-/* 배경이 투명한 이미지라서, 상자 그림자 대신 그림 모양을 따라 그림자를 준다 */
 .hero-new-book img {
   display: block;
   width: 100%;
@@ -82,18 +68,15 @@
   filter: drop-shadow(var(--shadow));
 }
 
-/* 마우스를 올리면 살짝 떠오르기 */
 .hero-new-book:hover {
   transform: translateY(calc(-1 * var(--space-1)));
 }
 
-/* 키보드(Tab)로 이동했을 때 위치가 보이게 */
 .hero-new-book:focus-visible {
   outline: 2px solid var(--color-on-primary);
   outline-offset: var(--space-1);
 }
 
-/* 화면 아래쪽 가운데의 스크롤 안내 */
 .hero-scroll {
   position: absolute;
   bottom: var(--space-6);
@@ -108,17 +91,11 @@
   text-decoration: underline;
 }
 
-/* ===== 도서 목록 ===== */
 .book-list {
-  /* 책 사이 가로 간격. 양쪽 끝 여백도 같은 값을 쓴다 */
   --grid-gap: var(--space-5);
-  /* Layout의 main 폭 제한(1120px)을 벗어나 화면 끝까지 넓히고, 양쪽 끝 여백 = 책 사이 간격 */
   margin-inline: calc(50% - 50vw);
   padding-inline: var(--grid-gap);
-  /* 링크로 이동했을 때 제목이 고정 헤더에 가려지지 않게 */
   scroll-margin-top: calc(var(--header-height) + var(--space-5));
-  /* 도서를 불러오는 동안에도 최소 한 화면 높이를 확보한다
-     → /#book-list 에서 새로고침하면 도서가 오기 전에도 바로 목록 위치까지 스크롤된다 */
   min-height: 100svh;
 }
 
@@ -210,7 +187,6 @@
   }
 }
 
-/* 메인 화면 글쓰기 버튼 */
 .hero-create-btn {
   display: inline-flex;
   align-items: center;
