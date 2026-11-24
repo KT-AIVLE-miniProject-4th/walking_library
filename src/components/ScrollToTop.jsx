@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const previous = window.history.scrollRestoration;
 
     window.history.scrollRestoration = 'manual';
@@ -31,6 +31,15 @@ function ScrollToTop() {
       left: 0,
       behavior: 'instant',
     });
+
+    requestAnimationFrame(() => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'instant',
+        });
+    });
+
   }, [pathname, hash]);
 
   return null;
