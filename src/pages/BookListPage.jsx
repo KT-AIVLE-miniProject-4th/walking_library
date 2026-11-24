@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar.jsx';
 import GenreFilter from '../components/GenreFilter.jsx';
 import { Link } from 'react-router-dom';
 import newBookIcon from '../assets/책임 아이콘.png';
+import { normalizeForSearch } from '../utils/searchKorean.js';
 import './BookListPage.css';
 
 // 첫 페이지: 화면을 꽉 채우는 대표 사진(hero) + 아래로 스크롤하면 도서 목록
@@ -12,13 +13,14 @@ function BookListPage({ books, loading, error }) {
   const [query, setQuery] = useState('');
   const [genre, setGenre] = useState('');
 
-  const keyword = query.trim().toLowerCase();
+  // 자모 분해 + 공백 제거 + 소문자 변환 후 비교
+  const keyword = normalizeForSearch(query);
   const filteredBooks = books.filter((book) => {
     const matchesGenre = !genre || book.genre === genre;
     const matchesKeyword =
       !keyword ||
-      book.title.toLowerCase().includes(keyword) ||
-      book.author.toLowerCase().includes(keyword);
+      normalizeForSearch(book.title).includes(keyword) ||
+      normalizeForSearch(book.author).includes(keyword);
     return matchesGenre && matchesKeyword;
   });
 
