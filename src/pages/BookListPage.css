@@ -117,6 +117,9 @@
   padding-inline: var(--grid-gap);
   /* 링크로 이동했을 때 제목이 고정 헤더에 가려지지 않게 */
   scroll-margin-top: calc(var(--header-height) + var(--space-5));
+  /* 도서를 불러오는 동안에도 최소 한 화면 높이를 확보한다
+     → /#book-list 에서 새로고침하면 도서가 오기 전에도 바로 목록 위치까지 스크롤된다 */
+  min-height: 100svh;
 }
 
 .book-list-toolbar {
