@@ -6,13 +6,32 @@ import './CoverGenerator.css';
 const QUALITIES = ['low', 'medium', 'high', 'auto'];
 const FORMATS = ['png', 'jpeg', 'webp'];
 
-// AI 표지 생성 모달 (상세 페이지에서 연다)
-// - book: 표지를 만들 도서
+// 표지 크기는 모두 세로 2:3 → 목록·상세의 2:3 표지 틀에 잘리지 않고 딱 맞는다
+const DEFAULT_SIZE = '1024x1536';
+const SIZE_LABELS = {
+  '768x1152': '768 × 1152 (작게, 빠름)',
+  '1024x1536': '1024 × 1536 (기본)',
+  '1280x1920': '1280 × 1920 (크게, 비용 ↑)',
+};
+const FLEXIBLE_SIZES = ['768x1152', '1024x1536', '1280x1920']; // 자유 크기 지원 모델용
+const FIXED_SIZES = [DEFAULT_SIZE]; // 정해진 크기만 되는 모델은 세로형이 1024x1536 하나뿐
+
+// 생성 모델별로 고를 수 있는 크기 (OpenAI 문서 기준)
+const MODELS = [
+  { id: 'gpt-image-2', label: 'gpt-image-2 (기본)', sizes: FLEXIBLE_SIZES },
+  { id: 'gpt-image-2.5-flare', label: 'gpt-image-2.5-flare (빠름)', sizes: FLEXIBLE_SIZES },
+  { id: 'gpt-image-1-mini', label: 'gpt-image-1-mini (저렴)', sizes: FIXED_SIZES },
+];
+
+// AI 표지 생성 모달 (상세 페이지·새 도서 등록 페이지에서 연다)
+// - book: 표지를 만들 도서 (등록 페이지에서는 입력 중인 값)
 // - onClose: 모달 닫기
 // - onUseCover(imageUrl): [이 표지 사용]을 누르면 부르는 async 함수 (저장은 페이지가 담당)
 function CoverGenerator({ book, onClose, onUseCover }) {
   // API Key는 이 컴포넌트의 state에만 있다 → 모달을 닫으면 사라진다 (저장 금지)
   const [apiKey, setApiKey] = useState('');
+  const [model, setModel] = useState(MODELS[0].id);
+  const [size, setSize] = useState(DEFAULT_SIZE);
   const [quality, setQuality] = useState('low');
   const [outputFormat, setOutputFormat] = useState('png');
   // 프롬프트는 처음 열 때 한 번 만들고, 그 뒤로는 사용자가 고칠 수 있다
@@ -34,6 +53,17 @@ function CoverGenerator({ book, onClose, onUseCover }) {
 
   const canGenerate = apiKey.trim() !== '' && prompt.trim() !== '' && !generating && !saving;
 
+  // 지금 고른 모델이 지원하는 크기 목록
+  const sizeOptions = MODELS.find((m) => m.id === model).sizes;
+
+  // 모델을 바꿀 때, 새 모델이 지원하지 않는 크기였다면 기본 크기로 되돌린다
+  const handleModelChange = (e) => {
+    const nextModel = e.target.value;
+    const nextSizes = MODELS.find((m) => m.id === nextModel).sizes;
+    setModel(nextModel);
+    if (!nextSizes.includes(size)) setSize(DEFAULT_SIZE);
+  };
+
   // [이 표지 사용]: 페이지에 저장을 맡긴다. 성공하면 페이지가 모달을 닫는다
   const handleUseCover = async () => {
     setSaving(true);
@@ -54,7 +84,7 @@ function CoverGenerator({ book, onClose, onUseCover }) {
     setGenerating(true);
     setError(null);
     try {
-      const url = await generateCover({ apiKey: apiKey.trim(), prompt, quality, outputFormat });
+      const url = await generateCover({ apiKey: apiKey.trim(), prompt, model, size, quality, outputFormat });
       setImageUrl(url);
     } catch (err) {
       setError(err.message);
@@ -98,6 +128,29 @@ function CoverGenerator({ book, onClose, onUseCover }) {
 
             <div className="cover-options">
               <label className="cover-field">
+                <span className="cover-label">생성 모델 (model)</span>
+                <select value={model} onChange={handleModelChange}>
+                  {MODELS.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="cover-field">
+                <span className="cover-label">이미지 크기 (세로 2:3)</span>
+                {/* 크기가 하나뿐인 모델은 고정으로 표시 */}
+                <select value={size} onChange={(e) => setSize(e.target.value)} disabled={sizeOptions.length === 1}>
+                  {sizeOptions.map((s) => (
+                    <option key={s} value={s}>
+                      {SIZE_LABELS[s]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="cover-field">
                 <span className="cover-label">품질 (quality)</span>
                 <select value={quality} onChange={(e) => setQuality(e.target.value)}>
                   {QUALITIES.map((q) => (
@@ -125,7 +178,7 @@ function CoverGenerator({ book, onClose, onUseCover }) {
               <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={9} />
             </label>
 
-            <p className="cover-notice">⚠ 생성할 때마다 OpenAI 비용이 발생해요.</p>
+            <p className="cover-notice">⚠ 생성할 때마다 OpenAI 비용이 발생해요. 크기와 품질이 높을수록 비용이 커져요.</p>
 
             {error && (
               <p className="cover-error" role="alert">

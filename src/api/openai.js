@@ -3,9 +3,11 @@
 const OPENAI_IMAGE_URL = 'https://api.openai.com/v1/images/generations';
 
 // 표지 이미지를 만들어 Data URL 문자열로 돌려준다
+// - model: 'gpt-image-2'(기본) 등 이미지 생성 모델
+// - size: 'WIDTHxHEIGHT' (표지는 세로 2:3만 사용, 예: '1024x1536')
 // - quality: 'low' | 'medium' | 'high' | 'auto'
 // - outputFormat: 'png' | 'jpeg' | 'webp'
-export async function generateCover({ apiKey, prompt, quality, outputFormat }) {
+export async function generateCover({ apiKey, prompt, model = 'gpt-image-2', size = '1024x1536', quality, outputFormat }) {
   let res;
   try {
     res = await fetch(OPENAI_IMAGE_URL, {
@@ -15,10 +17,10 @@ export async function generateCover({ apiKey, prompt, quality, outputFormat }) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-image-2',
+        model,
         prompt,
         n: 1, // 한 장만
-        size: '1024x1536', // 세로 2:3 (책 표지 비율)
+        size, // 세로 2:3 (책 표지 비율)
         quality,
         output_format: outputFormat,
       }),
