@@ -2,15 +2,14 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  /* 반투명 크림색 배경 */
-  background: rgba(160, 145, 133, 0.1);
+  /* 기본(사진을 지난 뒤·다른 페이지): 거의 불투명한 bone 배경 → 갈색 글자가 또렷하게 보인다 */
+  background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+  /* 투명 ↔ 불투명이 부드럽게 바뀌도록 */
+  transition: background 0.3s ease;
 
   /* 뒤에 있는 배경을 부드럽게 흐리게 */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-
-  /* 은은한 구분선 */
-  border-bottom: 1px solid rgba(75, 54, 33, 0.08);
 }
 
 .header-inner {
@@ -88,6 +87,27 @@
 .header-link.active {
   color: var(--color-primary-hover);
   font-weight: 600;
+}
+
+/* ===== 첫 화면 대표 사진 위에 있을 때: 투명 배경 + 흰 글자 ===== */
+.header-transparent {
+  /* 위에서 아래로 옅어지는 어두운 그라데이션: 밝은 사진 위에서도 흰 글자가 읽히게 */
+  background: linear-gradient(var(--color-overlay), transparent);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.header-transparent .header-logo,
+.header-transparent .header-subtitle,
+.header-transparent .header-link {
+  color: var(--color-on-primary);
+  text-shadow: 0 1px 6px var(--color-overlay);
+  transition: color 0.3s ease;
+}
+
+.header-transparent .header-link:hover {
+  color: var(--color-on-primary);
+  text-decoration: underline;
 }
 
 /* *** 반응형 CSS 추가 *** */

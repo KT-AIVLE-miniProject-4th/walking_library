@@ -16,11 +16,13 @@ function BookListPage({ books, loading, error }) {
 
   // 헤더의 [도서 목록]으로 들어오면(주소에 #book-list) 도서 목록 위치로 스크롤
   // location.key: 이미 #book-list인 상태에서 다시 눌러도 매번 스크롤되도록 함께 감시
+  // loading: 새로고침 직후에는 도서가 없어 페이지가 짧아 스크롤이 중간에 멈춘다
+  //          → 도서를 다 불러온 뒤(loading이 false가 될 때) 스크롤
   useEffect(() => {
-    if (location.hash === '#book-list') {
+    if (!loading && location.hash === '#book-list') {
       document.getElementById('book-list')?.scrollIntoView();
     }
-  }, [location.key, location.hash]);
+  }, [loading, location.key, location.hash]);
 
   // 자모 분해 + 공백 제거 + 소문자 변환 후 비교
   const keyword = normalizeForSearch(query);
